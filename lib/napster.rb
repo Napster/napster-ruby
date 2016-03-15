@@ -1,5 +1,4 @@
-require "napster/version"
+require 'faraday'
 
-module Napster
-  # Your code goes here...
-end
+require 'napster/version'
+require 'napster/request'
