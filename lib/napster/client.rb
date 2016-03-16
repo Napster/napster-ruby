@@ -17,6 +17,10 @@ module Napster
                   :expires_in,
                   :request
 
+    # Instantiate a client object
+    # @note request attribute is always overwritten by Napster::Request
+    #   object.
+    # @param options [Hash] Required options are :api_key and :api_secret
     def initialize(options)
       validate_initialize(options)
 
@@ -31,6 +35,11 @@ module Napster
       @request = Napster::Request.new(request_hash)
     end
 
+    # Make a post request to Napster API
+    # @param path [String] API path
+    # @param body [Hash] Body for the post request
+    # @param options [Hash] Faraday adapter options
+    # @return [Hash] parsed response from Napster API
     def post(path, body = {}, options = {})
       validate_request(path, body, options)
 
@@ -38,6 +47,10 @@ module Napster
       Oj.load(raw_response.body)
     end
 
+    # Main public method for authenticating against Napster API
+    # @param auth_method [Symbol] authentication methods that are
+    #   :password_grant or :oauth2
+    # @return [Hash] response from Napster API
     def authenticate(auth_method)
       validate_authenticate(auth_method)
 
@@ -45,7 +58,7 @@ module Napster
       return auth_oauth2 if auth_method == :oauth2
     end
 
-    # Get URL for OAuth2 authentication
+    # Get URL for OAuth2 authentication flow
     # @return [String] OAuth2 authentication URL
     def authentication_url
       validate_authentication_url
