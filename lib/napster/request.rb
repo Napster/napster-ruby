@@ -1,5 +1,5 @@
 module Napster
-  # Request class implements a request object used to
+  # The Request class implements a request object used to
   # call Napster API
   class Request
     HOST_URL = 'https://api.rhapsody.com'.freeze
