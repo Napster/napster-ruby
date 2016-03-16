@@ -45,6 +45,20 @@ module Napster
       return auth_oauth2 if auth_method == :oauth2
     end
 
+    # Get URL for OAuth2 authentication
+    # @return [String] OAuth2 authentication URL
+    def authentication_url
+      validate_authentication_url
+      query_params = {
+        client_id: @api_key,
+        redirect_uri: @redirect_uri,
+        response_type: 'code'
+      }
+      query_params[:state] = @state if @state
+      query_params_string = URI.encode_www_form(query_params)
+      Napster::Request::HOST_URL + '/oauth/authorize?' + query_params_string
+    end
+
     private
 
     def validate_initialize(options)
@@ -101,6 +115,35 @@ module Napster
     def validate_auth_password_grant
       raise 'The client is missing username' unless @username
       raise 'The client is missing password' unless @password
+    end
+
+    def auth_oauth2
+      validate_auth_oauth2
+      response_body = post('/oauth/access_token', auth_oauth2_post_body, {})
+      @access_token = response_body['access_token']
+      @refresh_token = response_body['refresh_token']
+      @expires_in = response_body['expires_in']
+      response_body
+    end
+
+    def auth_oauth2_post_body
+      {
+        client_id: @api_key,
+        client_secret: @api_secret,
+        response_type: 'code',
+        grant_type: 'authorization_code',
+        code: @auth_code,
+        redirect_uri: @redirect_uri
+      }
+    end
+
+    def validate_auth_oauth2
+      raise 'The client is missing redirect_uri' unless @redirect_uri
+      raise 'The client is missing auth_code' unless @auth_code
+    end
+
+    def validate_authentication_url
+      raise 'The client is missing redirect_uri' unless @redirect_uri
     end
   end
 end

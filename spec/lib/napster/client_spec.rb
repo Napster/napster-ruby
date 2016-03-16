@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Napster::Client do
+  config_hash = ConfigLoader.init
+  config_variables = config_hash['config_variables']
+
   it 'has a class' do
     expect(Napster::Client).not_to be nil
   end
@@ -75,7 +78,7 @@ describe Napster::Client do
       end
     end
 
-    describe 'password_grant' do
+    describe '#auth_password_grant' do
       describe 'validate' do
         it 'should reject when username is missing' do
           options = {
@@ -103,8 +106,6 @@ describe Napster::Client do
       end
 
       it 'should authenticate' do
-        config_hash = ConfigLoader.init
-        config_variables = config_hash['config_variables']
         options = {
           api_key: config_variables['API_KEY'],
           api_secret: config_variables['API_SECRET'],
@@ -120,6 +121,87 @@ describe Napster::Client do
         expect(client.expires_in).to_not be_nil
         expect(response).to_not be_nil
       end
+    end
+  end
+
+  describe '#auth_oauth2', type: :feature do
+    describe 'validate' do
+      it 'should reject when redirect_uri is missing' do
+        options = {
+          api_key: Faker::Lorem.characters(20),
+          api_secret: Faker::Lorem.characters(20),
+          auth_code: Faker::Lorem.characters(20)
+        }
+        client = Napster::Client.new(options)
+
+        expect { client.authenticate(:oauth2) }
+          .to raise_error(RuntimeError)
+      end
+
+      it 'should reject when auth_code is missing' do
+        options = {
+          api_key: Faker::Lorem.characters(20),
+          api_secret: Faker::Lorem.characters(20),
+          auth_code: Faker::Lorem.characters(20)
+        }
+        client = Napster::Client.new(options)
+
+        expect { client.authenticate(:oauth2) }
+          .to raise_error(RuntimeError)
+      end
+    end
+
+    it 'should authenticate' do
+      options = {
+        api_key: config_variables['API_KEY'],
+        api_secret: config_variables['API_SECRET'],
+        redirect_uri: config_variables['REDIRECT_URI'],
+        state: Faker::Lorem.characters(20)
+      }
+      client = Napster::Client.new(options)
+
+      visit client.authentication_url
+      within('.form-horizontal') do
+        fill_in 'Username', with: config_variables['USERNAME']
+        fill_in 'Password', with: config_variables['PASSWORD']
+      end
+      click_button 'Sign In'
+
+      selector = '.btn.btn-primary.btn-warning.pull-right'
+      redirect_uri = page.find(selector)['href']
+      client.auth_code = CGI.parse(URI.parse(redirect_uri).query)['code'].first
+      client.state = CGI.parse(URI.parse(redirect_uri).query)['state'].first
+      response = client.authenticate(:oauth2)
+
+      expect(client.access_token).to_not be_nil
+      expect(client.refresh_token).to_not be_nil
+      expect(client.expires_in).to_not be_nil
+      expect(response).to_not be_nil
+    end
+  end
+
+  describe '#authentication_url' do
+    describe 'validate' do
+      it 'should reject when redirect_uri is missing' do
+        options = {
+          api_key: Faker::Lorem.characters(20),
+          api_secret: Faker::Lorem.characters(20)
+        }
+        client = Napster::Client.new(options)
+
+        expect { client.authentication_url }.to raise_error(RuntimeError)
+      end
+    end
+
+    it 'should get authentication_url' do
+      options = {
+        api_key: Faker::Lorem.characters(20),
+        api_secret: Faker::Lorem.characters(20),
+        redirect_uri: Faker::Internet.url
+      }
+      client = Napster::Client.new(options)
+      url = client.authentication_url
+      expect(url).to_not be_nil
     end
   end
 end
