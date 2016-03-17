@@ -41,9 +41,26 @@ module Napster
     # @param options [Hash] Faraday adapter options
     # @return [Hash] parsed response from Napster API
     def post(path, body = {}, options = {})
-      validate_request(path, body, options)
+      validate_request_with_body(path, body, options)
 
       raw_response = @request.faraday.post(path, body, options)
+      Oj.load(raw_response.body)
+    end
+
+    # Make a get request to Napster API
+    # @param path [String] API path
+    # @param params [Hash] Query params for the get request
+    # @param options [Hash] Faraday adapter options
+    # @return [Hash] parsed response from Napster API
+    def get(path, params = {}, options = {})
+      validate_request_with_params(path, params, options)
+      raw_response = @request.faraday.get do |req|
+        req.url path, params
+        req.headers['apikey'] = @api_key
+        options[:headers].each do |key, value|
+          req.headers[key] = value
+        end
+      end
       Oj.load(raw_response.body)
     end
 
@@ -81,10 +98,19 @@ module Napster
       raise 'The client is missing api_secret' unless api_secret
     end
 
-    def validate_request(path, body, options)
+    def validate_request_with_body(path, body, options)
       raise ArgumentError, 'path is missing' unless path
       raise ArgumentError, 'body should be a hash' unless body.is_a?(Hash)
       raise ArgumentError, 'options should be a hash' unless options.is_a?(Hash)
+    end
+
+    def validate_request_with_params(path, params, options)
+      raise ArgumentError, 'path is missing' unless path
+      raise ArgumentError, 'params should be a hash' unless params.is_a?(Hash)
+      raise ArgumentError, 'options should be a hash' unless options.is_a?(Hash)
+      unless options[:headers].is_a?(Hash)
+        raise ArgumentError, 'options[:headers] should be a hash'
+      end
     end
 
     def validate_authenticate(auth_method)

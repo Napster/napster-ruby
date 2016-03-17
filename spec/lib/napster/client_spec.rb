@@ -204,4 +204,14 @@ describe Napster::Client do
       expect(url).to_not be_nil
     end
   end
+
+  describe '#get' do
+    it 'should get a response from Napster API' do
+      includes = %w('username', 'password')
+      client = ClientSpecHelper.get_client(includes)
+      req_options = { headers: { 'Accept-Version' => '2.0.0' } }
+      response = client.get('/artists/top', {}, req_options)
+      expect(response).to_not be_nil
+    end
+  end
 end

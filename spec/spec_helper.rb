@@ -5,6 +5,7 @@ require 'capybara/rspec'
 require 'capybara/poltergeist'
 
 require 'config_loader'
+require 'client_spec_helper'
 
 Capybara.current_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
