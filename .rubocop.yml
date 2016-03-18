@@ -1,2 +1,4 @@
 ClassLength:
   Max: 300
+MethodLength:
+  Max: 20

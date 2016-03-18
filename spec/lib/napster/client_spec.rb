@@ -210,7 +210,7 @@ describe Napster::Client do
       includes = %w('username', 'password')
       client = ClientSpecHelper.get_client(includes)
       req_options = { headers: { 'Accept-Version' => '2.0.0' } }
-      response = client.get('/artists/top', {}, req_options)
+      response = client.get('/artists/top', req_options)
       expect(response).to_not be_nil
     end
   end

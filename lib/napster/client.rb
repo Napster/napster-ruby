@@ -42,23 +42,73 @@ module Napster
     # @return [Hash] parsed response from Napster API
     def post(path, body = {}, options = {})
       validate_request_with_body(path, body, options)
-
-      raw_response = @request.faraday.post(path, body, options)
+      raw_response = @request.faraday.post do |req|
+        req.url path, options[:params]
+        req.body = body
+        req.headers['apikey'] = @api_key
+        if options[:headers]
+          options[:headers].each do |key, value|
+            req.headers[key] = value
+          end
+        end
+      end
       Oj.load(raw_response.body)
     end
 
     # Make a get request to Napster API
     # @param path [String] API path
-    # @param params [Hash] Query params for the get request
-    # @param options [Hash] Faraday adapter options
+    # @param options [Hash] Faraday adapter options accepting
+    #   headers
     # @return [Hash] parsed response from Napster API
-    def get(path, params = {}, options = {})
-      validate_request_with_params(path, params, options)
+    def get(path, options = {})
+      validate_request(path, options)
       raw_response = @request.faraday.get do |req|
-        req.url path, params
+        req.url path, options[:params]
         req.headers['apikey'] = @api_key
-        options[:headers].each do |key, value|
-          req.headers[key] = value
+        if options[:headers]
+          options[:headers].each do |key, value|
+            req.headers[key] = value
+          end
+        end
+      end
+      Oj.load(raw_response.body)
+    end
+
+    # Make a put request to Napster API
+    # @param path [String] API path
+    # @param body [Hash] Body for the put request
+    # @param options [Hash] Faraday apapter options accepting
+    #   headers, params
+    # @return [Hash] parsed response from Napster API
+    def put(path, body = {}, options = {})
+      validate_request_with_body(path, body, options)
+      raw_response = @request.faraday.put do |req|
+        req.url path, options[:params]
+        req.body = body
+        req.headers['apikey'] = @api_key
+        if options[:headers]
+          options[:headers].each do |key, value|
+            req.headers[key] = value
+          end
+        end
+      end
+      Oj.load(raw_response.body)
+    end
+
+    # Make a delete request to Napster API
+    # @param path [String] API path
+    # @param options [Hash] Faraday apapter options accepting
+    #   headers, params
+    # @return [Hash] parsed response from Napster API
+    def delete(path, options = {})
+      validate_request(path, options)
+      raw_response = @request.faraday.put do |req|
+        req.url path, options[:params]
+        req.headers['apikey'] = @api_key
+        if options[:headers]
+          options[:headers].each do |key, value|
+            req.headers[key] = value
+          end
         end
       end
       Oj.load(raw_response.body)
@@ -102,13 +152,15 @@ module Napster
       raise ArgumentError, 'path is missing' unless path
       raise ArgumentError, 'body should be a hash' unless body.is_a?(Hash)
       raise ArgumentError, 'options should be a hash' unless options.is_a?(Hash)
+      if options[:headers] && !options[:headers].is_a?(Hash)
+        raise ArgumentError, 'options[:headers] should be a hash'
+      end
     end
 
-    def validate_request_with_params(path, params, options)
+    def validate_request(path, options)
       raise ArgumentError, 'path is missing' unless path
-      raise ArgumentError, 'params should be a hash' unless params.is_a?(Hash)
       raise ArgumentError, 'options should be a hash' unless options.is_a?(Hash)
-      unless options[:headers].is_a?(Hash)
+      if options[:headers] && !options[:headers].is_a?(Hash)
         raise ArgumentError, 'options[:headers] should be a hash'
       end
     end
@@ -127,12 +179,13 @@ module Napster
 
     def auth_password_grant
       validate_auth_password_grant
-      response_body = post('/oauth/token', auth_password_grant_post_body,
-                           auth_password_grant_post_options)
-      @access_token = response_body['access_token']
-      @refresh_token = response_body['refresh_token']
-      @expires_in = response_body['expires_in']
-      response_body
+      body = post('/oauth/token',
+                  auth_password_grant_post_body,
+                  auth_password_grant_post_options)
+      @access_token = body['access_token']
+      @refresh_token = body['refresh_token']
+      @expires_in = body['expires_in']
+      body
     end
 
     def auth_password_grant_post_body
@@ -145,10 +198,9 @@ module Napster
     end
 
     def auth_password_grant_post_options
-      {
-        api_key: @api_key,
-        api_secret: @api_secret
-      }
+      basic_auth = Faraday::Request::BasicAuthentication.header(@api_key,
+                                                                @api_secret)
+      { headers: { Authorization: basic_auth } }
     end
 
     def validate_auth_password_grant
