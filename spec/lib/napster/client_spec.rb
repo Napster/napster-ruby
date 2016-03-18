@@ -207,11 +207,22 @@ describe Napster::Client do
 
   describe '#get' do
     it 'should get a response from Napster API' do
-      includes = %w('username', 'password')
-      client = ClientSpecHelper.get_client(includes)
+      client = ClientSpecHelper.get_client({})
       req_options = { headers: { 'Accept-Version' => '2.0.0' } }
       response = client.get('/artists/top', req_options)
       expect(response).to_not be_nil
+    end
+
+    it 'should get a response from Napster API\'s authenticated route' do
+      includes = %w(username password)
+      client = ClientSpecHelper.get_client(includes)
+      client.authenticate(:password_grant)
+      req_options = {
+        headers: {
+          Authorization: 'Bearer ' + client.access_token
+        }
+      }
+      response = client.get('/v1/me/account', req_options)
     end
   end
 end
