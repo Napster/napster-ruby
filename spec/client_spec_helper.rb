@@ -18,4 +18,16 @@ module ClientSpecHelper
     end
     Napster::Client.new(client_options)
   end
+
+  def self.get_me_library_playlists(client)
+    get_options = {
+      params: {
+        limit: 5
+      },
+      headers: {
+        Authorization: 'Bearer ' + client.access_token
+      }
+    }
+    client.get('/me/library/playlists', get_options)
+  end
 end

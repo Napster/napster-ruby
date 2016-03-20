@@ -223,6 +223,33 @@ describe Napster::Client do
         }
       }
       response = client.get('/v1/me/account', req_options)
+      expect(response['logon']).to eql(client.username)
+    end
+  end
+
+  describe '#put' do
+    it 'should make a put request' do
+      includes = %w(username password)
+      client = ClientSpecHelper.get_client(includes)
+      client.authenticate(:password_grant)
+      playlists = ClientSpecHelper.get_me_library_playlists(client)
+      playlist = playlists['playlists'][0]
+      body = {
+        'playlists' => {
+          'name' => Faker::Lorem.word
+        }
+      }
+      put_options = {
+        headers: {
+          Authorization: 'Bearer ' + client.access_token,
+          'Content-Type' => 'application/json',
+          'Accept-Version' => '2.0.0'
+        }
+      }
+      response = client.put('/me/library/playlists/' + playlist['id'],
+                            Oj.dump(body), put_options)
+      updated_playlist = response['playlists'][0]
+      expect(updated_playlist['name']).to eql(body['playlists']['name'])
     end
   end
 end
