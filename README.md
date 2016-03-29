@@ -77,6 +77,17 @@ client.authentication.expires_in
 
 ### Refresh an access token
 
+Napster API's `access_token` expires in 24 hours after it is issued.
+You need to use the `refresh_token` to generate a new `access_token` when
+it is expired.
+
+*It is not recommended to get a new access_token - refresh_token
+through authentication after the old access_token expires.*
+
+```ruby
+client.refresh # => returns new access_token by refreshing it
+```
+
 ### Versioning
 
 The Napster gem supports Napster API version 2.x and above only.
