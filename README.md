@@ -167,7 +167,7 @@ config_variables:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/napster.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rhapsody/napster.
 
 
 ## License
