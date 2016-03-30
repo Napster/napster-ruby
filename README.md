@@ -88,6 +88,42 @@ through authentication after the old access_token expires.*
 client.refresh # => returns new access_token by refreshing it
 ```
 
+### Making Requests
+
+#### Metadata API
+
+Metadata endpoints do not need the client to be authenticated.
+First, set up a client with `api_key` and `api_secret`.
+Then you can call metadata endpoints following this pattern.
+
+```ruby
+# takes a form of client.[resources].[method]
+# examples
+client.artists.top
+client.artists.find(artist_id) # => returns an artist
+client.artists.find(artist_name) # => returns a list of search results for the artist
+client.artists.find(artist_id).albums
+client.artists.find(artist_id).topAlbums
+client.artists.find(artist_id).topTracks({ params: { limit: 5 } })
+```
+
+#### Authenticated Member API
+
+Authenticated member endpoints require the client to be authenticated.
+First, set up a client with `api_key` and `api_secret`.
+Authenticate the client by going through password grant method or
+OAuth2 method.
+Ensure that the client has access_token and refresh_token.
+Then you can call metadata endpoints following this pattern.
+
+```ruby
+# takes a form of client.me.[resources].[method]
+# examples
+client.me.profile
+client.me.profile.update({ body: { bio: 'I like turtles' } })
+client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123', 'tra.234'] } })
+```
+
 ### Versioning
 
 The Napster gem supports Napster API version 2.x and above only.
