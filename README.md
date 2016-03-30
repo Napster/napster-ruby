@@ -124,6 +124,26 @@ client.me.profile.update({ body: { bio: 'I like turtles' } })
 client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123', 'tra.234'] } })
 ```
 
+#### Query Parameters
+
+```ruby
+client.artists.top({ params: { limit: 5, offset: 5 } })
+```
+
+#### Request body for PUT / POST
+
+```ruby
+request_hash = {
+  body: {
+    name: 'name of the playlist',
+    tags: ['tag.1', 'tag.2'],
+    privacy: 'public',
+    tracks: ['tra.1', 'tra.2']
+  }
+}
+client.me.create_playlist(request_hash)
+```
+
 ### Versioning
 
 The Napster gem supports Napster API version 2.x and above only.
@@ -148,28 +168,6 @@ one-off calls to a different version of Napster API.
 client.version = 'v2.1'
 client.v2_2.artists.top # returns top artists using v2.2
 client.artists.top # returns top artists using v2.1
-```
-
-### Making Requests
-
-#### Query Parameters
-
-```ruby
-client.artists.top({ params: { limit: 5, offset: 5 } })
-```
-
-#### Request body for PUT / POST
-
-```ruby
-request_hash = {
-  body: {
-    name: 'name of the playlist',
-    tags: ['tag.1', 'tag.2'],
-    privacy: 'public',
-    tracks: ['tra.1', 'tra.2']
-  }
-}
-client.me.create_playlist(request_hash)
 ```
 
 ## Development
