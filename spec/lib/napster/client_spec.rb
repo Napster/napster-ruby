@@ -265,4 +265,48 @@ describe Napster::Client do
       expect(updated_playlist['name']).to eql(body['playlists']['name'])
     end
   end
+
+  describe '#connect', type: :feature do
+    it 'via password_grant' do
+      options = {
+        api_key: config_variables['API_KEY'],
+        api_secret: config_variables['API_SECRET']
+      }
+      client = Napster::Client.new(options)
+      client.username = config_variables['USERNAME']
+      client.password = config_variables['PASSWORD']
+      client.connect
+
+      expect(client.access_token).to_not be_nil
+      expect(client.refresh_token).to_not be_nil
+      expect(client.expires_in).to_not be_nil
+    end
+
+    it 'via oauth2' do
+      options = {
+        api_key: config_variables['API_KEY'],
+        api_secret: config_variables['API_SECRET'],
+        redirect_uri: config_variables['REDIRECT_URI'],
+        state: Faker::Lorem.characters(20)
+      }
+      client = Napster::Client.new(options)
+
+      visit client.authentication_url
+      within('.form-horizontal') do
+        fill_in 'Username', with: config_variables['USERNAME']
+        fill_in 'Password', with: config_variables['PASSWORD']
+      end
+      click_button 'Sign In'
+
+      selector = '.btn.btn-primary.btn-warning.pull-right'
+      redirect_uri = page.find(selector)['href']
+      client.auth_code = CGI.parse(URI.parse(redirect_uri).query)['code'].first
+      client.state = CGI.parse(URI.parse(redirect_uri).query)['state'].first
+      client = client.connect
+
+      expect(client.access_token).to_not be_nil
+      expect(client.refresh_token).to_not be_nil
+      expect(client.expires_in).to_not be_nil
+    end
+  end
 end

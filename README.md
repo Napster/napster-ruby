@@ -58,6 +58,22 @@ client.authentication.refresh_token
 client.authentication.expires_in
 ```
 
+```ruby
+client_hash = {
+  api_key: 'API_KEY',
+  api_secret: 'API_SECRET'
+}
+
+client = Napster::Client.new(client_hash)
+client.username = 'USERNAME'
+client.password = 'PASSWORD'
+client.connect
+
+client.authentication.access_token # => returns access_token
+client.authentication.refresh_token
+client.authentication.expires_in
+```
+
 #### OAuth 2
 
 ```ruby

@@ -7,9 +7,10 @@ require 'capybara/poltergeist'
 require 'config_loader'
 require 'client_spec_helper'
 
+Capybara.app_host = Napster::Request::HOST_URL
 Capybara.current_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
-Capybara.app_host = Napster::Request::HOST_URL
+Capybara.default_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   driver_options = { phantomjs: 'phantomjs' }
