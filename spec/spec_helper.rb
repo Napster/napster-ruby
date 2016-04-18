@@ -5,6 +5,7 @@ require 'capybara/rspec'
 require 'capybara/poltergeist'
 
 require 'config_loader'
+require 'fixture_loader'
 require 'client_spec_helper'
 
 Capybara.app_host = Napster::Request::HOST_URL
