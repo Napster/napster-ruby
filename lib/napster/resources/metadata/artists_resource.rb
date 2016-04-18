@@ -14,6 +14,31 @@ module Napster
           response = @client.get('/artists/top')
           Napster::Models::Artist.collection(response['artists'])
         end
+
+        def find(arg)
+          return find_by_id(arg) if Napster::Moniker.check(arg, :artist)
+          find_by_name(arg)
+        end
+
+        def find_by_id(id)
+          response = @client.get("/artists/#{id}")
+          Napster::Models::Artist.new(response['artists'].first)
+        end
+
+        def find_all_by_name(name)
+          options = {
+            params: {
+              q: name,
+              type: 'artist'
+            }
+          }
+          response = @client.get('/search', options)
+          Napster::Models::Artist.collection(response['data'])
+        end
+
+        def find_by_name(name)
+          find_all_by_name(name).first
+        end
       end
     end
   end

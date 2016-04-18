@@ -4,6 +4,7 @@ require 'oj'
 require 'napster/client'
 require 'napster/request'
 require 'napster/version'
+require 'napster/moniker'
 
 # Models
 require 'napster/models/artist'
