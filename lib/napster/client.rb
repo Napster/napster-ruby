@@ -115,7 +115,19 @@ module Napster
       Oj.load(raw_response.body)
     end
 
-    # Main public method for authenticating against Napster API
+    # Smarter method for authentication via password_grant or oauth2
+    # @return [Client]
+    def connect
+      if authenticate_via_password_grant?
+        return authenticate(:password_grant)
+      elsif authenticate_via_oauth2?
+        return authenticate(:oauth2)
+      end
+
+      raise ArgumentError
+    end
+
+    # Main method for authenticating against Napster API
     # @param auth_method [Symbol] authentication methods that are
     #   :password_grant or :oauth2
     # @return [Hash] response from Napster API
@@ -153,7 +165,11 @@ module Napster
     #   possible with current attributes.
     # @return [Boolean]
     def authenticate_via_password_grant?
-      @api_key && @api_secret && @username && @password && !@auth_code
+      @api_key && @api_secret && @username && @password
+    end
+
+    def authenticate_via_oauth2?
+      @api_key && @api_secret && @redirect_uri && @auth_code
     end
 
     def validate_initialize(options)
@@ -191,6 +207,7 @@ module Napster
       @access_token = body['access_token']
       @refresh_token = body['refresh_token']
       @expires_in = body['expires_in']
+
       self
     end
 
