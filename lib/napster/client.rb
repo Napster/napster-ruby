@@ -33,6 +33,7 @@ module Napster
         api_secret: @api_secret
       }
       @request = Napster::Request.new(request_hash)
+      authenticate_client
     end
 
     # Make a post request to Napster API
@@ -141,6 +142,20 @@ module Napster
 
     private
 
+    # Helper method for .new, choose authentication method, and authenticate
+    # @return [Client] Authenticated client
+    def authenticate_client
+      return authenticate(:password_grant) if authenticate_via_password_grant?
+      self
+    end
+
+    # Helper method for #authenticate_client, check if password_grant auth is
+    #   possible with current attributes.
+    # @return [Boolean]
+    def authenticate_via_password_grant?
+      @api_key && @api_secret && @username && @password && !@auth_code
+    end
+
     def validate_initialize(options)
       api_key = options[:api_key]
       api_secret = options[:api_secret]
@@ -176,7 +191,7 @@ module Napster
       @access_token = body['access_token']
       @refresh_token = body['refresh_token']
       @expires_in = body['expires_in']
-      body
+      self
     end
 
     def auth_password_grant_post_body
@@ -205,7 +220,7 @@ module Napster
       @access_token = response_body['access_token']
       @refresh_token = response_body['refresh_token']
       @expires_in = response_body['expires_in']
-      response_body
+      self
     end
 
     def auth_oauth2_post_body

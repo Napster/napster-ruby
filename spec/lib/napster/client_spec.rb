@@ -9,6 +9,21 @@ describe Napster::Client do
   end
 
   describe '.initialize' do
+    it 'auth with password_grant' do
+      options = {
+        api_key: config_variables['API_KEY'],
+        api_secret: config_variables['API_SECRET'],
+        username: config_variables['USERNAME'],
+        password: config_variables['PASSWORD']
+      }
+
+      client = Napster::Client.new(options)
+
+      expect(client.access_token).to_not be_nil
+      expect(client.refresh_token).to_not be_nil
+      expect(client.expires_in).to_not be_nil
+    end
+
     describe 'validate' do
       it 'should reject when api_key is missing' do
         options = { api_secret: Faker::Lorem.characters(20) }
@@ -114,12 +129,11 @@ describe Napster::Client do
         }
 
         client = Napster::Client.new(options)
-        response = client.authenticate(:password_grant)
+        client = client.authenticate(:password_grant)
 
         expect(client.access_token).to_not be_nil
         expect(client.refresh_token).to_not be_nil
         expect(client.expires_in).to_not be_nil
-        expect(response).to_not be_nil
       end
     end
   end
@@ -171,12 +185,11 @@ describe Napster::Client do
       redirect_uri = page.find(selector)['href']
       client.auth_code = CGI.parse(URI.parse(redirect_uri).query)['code'].first
       client.state = CGI.parse(URI.parse(redirect_uri).query)['state'].first
-      response = client.authenticate(:oauth2)
+      client = client.authenticate(:oauth2)
 
       expect(client.access_token).to_not be_nil
       expect(client.refresh_token).to_not be_nil
       expect(client.expires_in).to_not be_nil
-      expect(response).to_not be_nil
     end
   end
 
