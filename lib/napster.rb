@@ -8,6 +8,7 @@ require 'napster/moniker'
 
 # Models
 require 'napster/models/artist'
+require 'napster/models/album'
 
 # Metadata resources
 require 'napster/resources/metadata/artists_resource'
