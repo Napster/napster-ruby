@@ -49,7 +49,7 @@ client_hash = {
   password: 'PASSWORD'
 }
 
-# Just by authenticating with api_key, api_secret, username, and password
+# Just by instantiating with api_key, api_secret, username, and password
 # you can authenticate by password_grant.
 client = Napster::Client.new(client_hash)
 
