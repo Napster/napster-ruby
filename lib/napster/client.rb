@@ -34,6 +34,7 @@ module Napster
       }
       @request = Napster::Request.new(request_hash)
       authenticate_client
+      set_resources
     end
 
     # Make a post request to Napster API
@@ -118,12 +119,8 @@ module Napster
     # Smarter method for authentication via password_grant or oauth2
     # @return [Client]
     def connect
-      if authenticate_via_password_grant?
-        return authenticate(:password_grant)
-      elsif authenticate_via_oauth2?
-        return authenticate(:oauth2)
-      end
-
+      return authenticate(:password_grant) if authenticate_via_password_grant?
+      return authenticate(:oauth2) if authenticate_via_oauth2?
       raise ArgumentError
     end
 
@@ -258,6 +255,16 @@ module Napster
 
     def validate_authentication_url
       raise 'The client is missing redirect_uri' unless @redirect_uri
+    end
+
+    # Helper method for Client.new
+    #   Set resources methods on the client
+    # @return [Client]
+    def set_resources
+      define_singleton_method('artists') do
+        Napster::Resources::Metadata::ArtistsResource.new(self)
+      end
+      self
     end
   end
 end
