@@ -63,4 +63,36 @@ describe Napster::Resources::Metadata::ArtistsResource do
     expect(albums.data.class).to eql(Array)
     expect(albums.data.first.class).to eql(Napster::Models::Album)
   end
+
+  it 'artist.top_albums' do
+    artist_id = fixture['artist']['id']
+    albums = client.artists.find(artist_id).top_albums
+    expect(albums.class).to eql(Napster::Resources::Metadata::ArtistsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Album)
+  end
+
+  it 'artist.new_albums' do
+    artist_id = fixture['artist']['id']
+    albums = client.artists.find(artist_id).new_albums
+    expect(albums.class).to eql(Napster::Resources::Metadata::ArtistsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Album)
+  end
+
+  it 'artist.tracks' do
+    artist_id = fixture['artist']['id']
+    albums = client.artists.find(artist_id).tracks
+    expect(albums.class).to eql(Napster::Resources::Metadata::ArtistsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Track)
+  end
+
+  it 'artist.top_tracks' do
+    artist_id = fixture['artist']['id']
+    albums = client.artists.find(artist_id).tracks
+    expect(albums.class).to eql(Napster::Resources::Metadata::ArtistsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Track)
+  end
 end

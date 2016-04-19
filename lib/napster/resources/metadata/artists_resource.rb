@@ -45,9 +45,37 @@ module Napster
           self
         end
 
+        #
+        # artist singleton methods
+        #
+
         def albums
           response = @client.get("/artists/#{@data.id}/albums")
           @data = Napster::Models::Album.collection(response['albums'])
+          self
+        end
+
+        def top_albums
+          response = @client.get("/artists/#{@data.id}/albums/top")
+          @data = Napster::Models::Album.collection(response['albums'])
+          self
+        end
+
+        def new_albums
+          response = @client.get("/artists/#{@data.id}/albums/new")
+          @data = Napster::Models::Album.collection(response['albums'])
+          self
+        end
+
+        def tracks
+          response = @client.get("/artists/#{@data.id}/tracks")
+          @data = Napster::Models::Track.collection(response['tracks'])
+          self
+        end
+
+        def top_tracks
+          response = @client.get("/artists/#{@data.id}/tracks/top")
+          @data = Napster::Models::Track.collection(response['tracks'])
           self
         end
       end
