@@ -9,7 +9,7 @@ module Napster
                     :shortcut,
                     :blurbs,
                     :bios,
-                    :albumGroups,
+                    :album_groups,
                     :links].freeze
 
       ATTRIBUTES.each do |attribute|
@@ -18,7 +18,7 @@ module Napster
 
       def initialize(arg)
         ATTRIBUTES.each do |attribute|
-          send("#{attribute}=", arg[attribute.to_s])
+          send("#{attribute}=", arg[attribute.to_s.camel_case_lower])
         end
       end
 

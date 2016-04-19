@@ -9,17 +9,17 @@ module Napster
                     :href,
                     :name,
                     :released,
-                    :originallyReleased,
+                    :originally_released,
                     :label,
                     :copyright,
                     :tags,
-                    :discCount,
-                    :trackCount,
+                    :disc_count,
+                    :track_count,
                     :explicit,
                     :single,
-                    :accountPartner,
-                    :artistName,
-                    :contributingArtists].freeze
+                    :account_partner,
+                    :artist_name,
+                    :contributing_artists].freeze
 
       ATTRIBUTES.each do |attribute|
         attr_accessor attribute
@@ -27,7 +27,7 @@ module Napster
 
       def initialize(arg)
         ATTRIBUTES.each do |attribute|
-          send("#{attribute}=", arg[attribute.to_s])
+          send("#{attribute}=", arg[attribute.to_s.camel_case_lower])
         end
       end
 
