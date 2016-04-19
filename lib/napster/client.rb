@@ -264,6 +264,9 @@ module Napster
       define_singleton_method('artists') do
         Napster::Resources::Metadata::ArtistsResource.new(self)
       end
+      define_singleton_method('albums') do
+        Napster::Resources::Metadata::AlbumsResource.new(self)
+      end
       self
     end
   end

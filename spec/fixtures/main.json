@@ -2,5 +2,9 @@
   "artist": {
     "name": "Drake",
     "id": "Art.28463069"
+  },
+  "album": {
+    "name": "Take Care",
+    "id": "Alb.220525487"
   }
 }
