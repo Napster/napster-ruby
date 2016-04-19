@@ -3,7 +3,7 @@ module Napster
   # information such as api_key, api_secret, and :redirect_uri
   # needed to call Napster API.
   class Client
-    RESOURCES_LIST = %w(artists albums tracks genres).freeze
+    RESOURCES_LIST = %w(artists albums tracks genres playlists).freeze
     AUTH_METHODS = [:password_grant, :oauth2].freeze
 
     attr_accessor :api_key,
