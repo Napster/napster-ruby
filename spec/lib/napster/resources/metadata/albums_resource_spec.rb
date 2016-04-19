@@ -32,6 +32,13 @@ describe Napster::Resources::Metadata::AlbumsResource do
     expect(albums.data.first.class).to eql(Napster::Models::Album)
   end
 
+  it '#top' do
+    albums = client.albums.top
+    expect(albums.class).to eql(Napster::Resources::Metadata::AlbumsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Album)
+  end
+
   describe '#find' do
     it 'by id' do
       album_id = fixture['album']['id']
@@ -48,4 +55,19 @@ describe Napster::Resources::Metadata::AlbumsResource do
     end
   end
 
+  it 'album.tracks' do
+    album_id = fixture['album']['id']
+    tracks = client.albums.find(album_id).tracks
+    expect(tracks.class).to eql(Napster::Resources::Metadata::AlbumsResource)
+    expect(tracks.data.class).to eql(Array)
+    expect(tracks.data.first.class).to eql(Napster::Models::Track)
+  end
+
+  it 'album.similar' do
+    album_id = fixture['album']['id']
+    albums = client.albums.find(album_id).similar
+    expect(albums.class).to eql(Napster::Resources::Metadata::AlbumsResource)
+    expect(albums.data.class).to eql(Array)
+    expect(albums.data.first.class).to eql(Napster::Models::Album)
+  end
 end

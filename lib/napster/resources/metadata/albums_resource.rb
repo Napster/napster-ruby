@@ -17,6 +17,12 @@ module Napster
           self
         end
 
+        def top
+          response = @client.get('/albums/top')
+          @data = Napster::Models::Album.collection(response['albums'])
+          self
+        end
+
         def find(arg)
           return find_by_id(arg) if Napster::Moniker.check(arg, :album)
           find_by_name(arg)
@@ -42,6 +48,22 @@ module Napster
 
         def find_by_name(name)
           @data = find_all_by_name(name).data.first
+          self
+        end
+
+        #
+        # album singleton methods
+        #
+
+        def tracks
+          response = @client.get("/albums/#{@data.id}/tracks")
+          @data = Napster::Models::Track.collection(response['tracks'])
+          self
+        end
+
+        def similar
+          response = @client.get("/albums/#{@data.id}/similar")
+          @data = Napster::Models::Album.collection(response['albums'])
           self
         end
       end
