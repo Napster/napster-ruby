@@ -3,6 +3,7 @@ module Napster
   # information such as api_key, api_secret, and :redirect_uri
   # needed to call Napster API.
   class Client
+    RESOURCES_LIST = %w(artists albums tracks).freeze
     AUTH_METHODS = [:password_grant, :oauth2].freeze
 
     attr_accessor :api_key,
@@ -261,16 +262,16 @@ module Napster
     #   Set resources methods on the client
     # @return [Client]
     def set_resources
-      define_singleton_method('artists') do
-        Napster::Resources::Metadata::ArtistsResource.new(self)
-      end
-      define_singleton_method('albums') do
-        Napster::Resources::Metadata::AlbumsResource.new(self)
-      end
-      define_singleton_method('tracks') do
-        Napster::Resources::Metadata::TracksResource.new(self)
+      RESOURCES_LIST.each do |resource|
+        define_singleton_method(resource) do
+          Object.const_get(resource_class_name(resource)).new(self)
+        end
       end
       self
+    end
+
+    def resource_class_name(resource)
+      "Napster::Resources::Metadata::#{resource.capitalize}Resource"
     end
   end
 end
