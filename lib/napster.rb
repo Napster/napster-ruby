@@ -13,5 +13,6 @@ require 'napster/models/track'
 
 # Metadata resources
 require 'napster/resources/metadata/artists_resource'
+require 'napster/resources/metadata/albums_resource'
 
 # Authenticated resources
