@@ -7,17 +7,17 @@ module Napster
                     :index,
                     :disc,
                     :href,
-                    :playbackSeconds,
+                    :playback_seconds,
                     :explicit,
                     :name,
                     :isrc,
                     :shortcut,
                     :amg,
                     :blurbs,
-                    :artistName,
-                    :albumName,
+                    :artist_name,
+                    :album_name,
                     :formats,
-                    :albumId,
+                    :album_id,
                     :contributors].freeze
 
       ATTRIBUTES.each do |attribute|
@@ -26,7 +26,7 @@ module Napster
 
       def initialize(arg)
         ATTRIBUTES.each do |attribute|
-          send("#{attribute}=", arg[attribute.to_s])
+          send("#{attribute}=", arg[attribute.to_s.camel_case_lower])
         end
       end
 

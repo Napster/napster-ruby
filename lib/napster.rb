@@ -1,6 +1,7 @@
 require 'faraday'
 require 'oj'
 
+require 'string'
 require 'napster/client'
 require 'napster/request'
 require 'napster/version'

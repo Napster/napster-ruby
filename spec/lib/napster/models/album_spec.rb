@@ -11,13 +11,12 @@ describe Napster::Models::Album do
       album = Napster::Models::Album.new({})
 
       Napster::Models::Album::ATTRIBUTES.each do |attr|
-        expect(album).to respond_to(attr)
+        expect(album).to respond_to(attr.to_s)
       end
     end
 
     it 'should assign values' do
       album = Napster::Models::Album.new(albums_top['albums'].first)
-
       expect(album.type).to eql('album')
     end
   end
