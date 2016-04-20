@@ -13,6 +13,7 @@ require 'napster/models/album'
 require 'napster/models/track'
 require 'napster/models/genre'
 require 'napster/models/playlist'
+require 'napster/models/tag'
 
 # Metadata resources
 require 'napster/resources/metadata/artists_resource'
