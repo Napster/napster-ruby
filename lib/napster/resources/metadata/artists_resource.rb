@@ -4,17 +4,15 @@ module Napster
       # Artists resources
       #   Makes /artists namespaced calls to Napster API
       class ArtistsResource
-        attr_accessor :client, :data
+        attr_accessor :client
 
         def initialize(client)
           @client = client
-          @data = nil
         end
 
         def top
           response = @client.get('/artists/top')
-          @data = Napster::Models::Artist.collection(response['artists'])
-          self
+          Napster::Models::Artist.collection({ data: response['artists'], client: @client })
         end
 
         def find(arg)
@@ -24,8 +22,7 @@ module Napster
 
         def find_by_id(id)
           response = @client.get("/artists/#{id}")
-          @data = Napster::Models::Artist.new(response['artists'].first)
-          self
+          Napster::Models::Artist.new({ data: response['artists'].first, client: @client })
         end
 
         def find_all_by_name(name)
@@ -36,47 +33,11 @@ module Napster
             }
           }
           response = @client.get('/search', options)
-          @data = Napster::Models::Artist.collection(response['data'])
-          self
+          Napster::Models::Artist.collection({ data: response['data'], client: @client })
         end
 
         def find_by_name(name)
-          @data = find_all_by_name(name).data.first
-          self
-        end
-
-        #
-        # artist singleton methods
-        #
-
-        def albums
-          response = @client.get("/artists/#{@data.id}/albums")
-          @data = Napster::Models::Album.collection(response['albums'])
-          self
-        end
-
-        def top_albums
-          response = @client.get("/artists/#{@data.id}/albums/top")
-          @data = Napster::Models::Album.collection(response['albums'])
-          self
-        end
-
-        def new_albums
-          response = @client.get("/artists/#{@data.id}/albums/new")
-          @data = Napster::Models::Album.collection(response['albums'])
-          self
-        end
-
-        def tracks
-          response = @client.get("/artists/#{@data.id}/tracks")
-          @data = Napster::Models::Track.collection(response['tracks'])
-          self
-        end
-
-        def top_tracks
-          response = @client.get("/artists/#{@data.id}/tracks/top")
-          @data = Napster::Models::Track.collection(response['tracks'])
-          self
+          find_all_by_name(name).first
         end
       end
     end
