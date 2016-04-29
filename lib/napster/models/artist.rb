@@ -2,7 +2,7 @@ module Napster
   module Models
     # Artist model
     class Artist
-      RESPONSE_ATTRIBUTES = [:type,
+      ATTRIBUTES = [:type,
                              :id,
                              :href,
                              :name,
@@ -12,7 +12,7 @@ module Napster
                              :album_groups,
                              :links].freeze
 
-      RESPONSE_ATTRIBUTES.each do |attribute|
+      ATTRIBUTES.each do |attribute|
         attr_accessor attribute
       end
 
@@ -22,7 +22,7 @@ module Napster
         @client = arg[:client] if arg[:client]
         return unless arg[:data]
 
-        RESPONSE_ATTRIBUTES.each do |attribute|
+        ATTRIBUTES.each do |attribute|
           send("#{attribute}=", arg[:data][attribute.to_s.camel_case_lower])
         end
       end
@@ -37,7 +37,7 @@ module Napster
 
       def top
         response = @client.get('/artists/top')
-        Artist.collection(data: response['artists'], client: @client)
+        Artist.collection(data: response['artists'])
       end
 
       def find(arg)
@@ -69,17 +69,17 @@ module Napster
 
       def albums
         response = @client.get("/artists/#{@id}/albums")
-        Napster::Models::Album.collection(response['albums'])
+        Album.collection(response['albums'])
       end
 
       def top_albums
         response = @client.get("/artists/#{@id}/albums/top")
-        Napster::Models::Album.collection(response['albums'])
+        Album.collection(response['albums'])
       end
 
       def new_albums
         response = @client.get("/artists/#{@id}/albums/new")
-        Napster::Models::Album.collection(response['albums'])
+        Album.collection(response['albums'])
       end
 
       # TODO: add limits
@@ -90,12 +90,12 @@ module Napster
           }
         }
         response = @client.get("/artists/#{@id}/tracks", options)
-        Napster::Models::Track.collection(response['tracks'])
+        Track.collection(response['tracks'])
       end
 
       def top_tracks
         response = @client.get("/artists/#{@data.id}/tracks/top")
-        Napster::Models::Track.collection(response['tracks'])
+        Track.collection(response['tracks'])
       end
     end
   end

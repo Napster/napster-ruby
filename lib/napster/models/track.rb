@@ -24,15 +24,20 @@ module Napster
         attr_accessor attribute
       end
 
+      attr_accessor :client
+
       def initialize(arg)
+        @client = arg[:client] if arg[:client]
+        return unless arg[:data]
+
         ATTRIBUTES.each do |attribute|
-          send("#{attribute}=", arg[attribute.to_s.camel_case_lower])
+          send("#{attribute}=", arg[:data][attribute.to_s.camel_case_lower])
         end
       end
 
-      def self.collection(tracks)
-        tracks.map do |track|
-          Track.new(track)
+      def self.collection(arg)
+        arg[:data].map do |track|
+          Track.new(data: track, client: @client)
         end
       end
     end
