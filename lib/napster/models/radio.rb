@@ -44,11 +44,25 @@ module Napster
 
       # Top level methods
 
-      def find(id)
-        e = 'Invalid playlist id'
-        raise ArgumentError, e unless Napster::Moniker.check(id, :radio)
+      def find(arg)
+        return find_by_id(arg) if Napster::Moniker.check(arg, :artist)
+        find_by_name(arg)
+      end
+
+      def find_by_id(id)
         response = @client.get("/radios/#{id}")
         Radio.new(data: response['radios'].first, client: @client)
+      end
+
+      def find_by_name(name)
+        options = {
+          params: {
+            q: name,
+            type: 'radio'
+          }
+        }
+        response = @client.get('/search', options)
+        Radio.new(data: response['data'].first, client: @client)
       end
 
       def featured
