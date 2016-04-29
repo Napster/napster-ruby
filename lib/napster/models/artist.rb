@@ -3,14 +3,14 @@ module Napster
     # Artist model
     class Artist
       ATTRIBUTES = [:type,
-                             :id,
-                             :href,
-                             :name,
-                             :shortcut,
-                             :blurbs,
-                             :bios,
-                             :album_groups,
-                             :links].freeze
+                    :id,
+                    :href,
+                    :name,
+                    :shortcut,
+                    :blurbs,
+                    :bios,
+                    :album_groups,
+                    :links].freeze
 
       ATTRIBUTES.each do |attribute|
         attr_accessor attribute

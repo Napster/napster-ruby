@@ -17,7 +17,6 @@ require 'napster/models/tag'
 require 'napster/models/member'
 
 # Metadata resources
-require 'napster/resources/metadata/genres_resource'
 require 'napster/resources/metadata/playlists_resource'
 require 'napster/resources/metadata/tags_resource'
 require 'napster/resources/metadata/members_resource'
