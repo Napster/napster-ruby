@@ -8,6 +8,7 @@ options = {
 }
 client = Napster::Client.new(options)
 radio_id = fixture['radio']['id']
+radio_name = fixture['radio']['name']
 
 describe Napster::Models::Radio do
   it 'has a class' do
@@ -35,15 +36,20 @@ describe Napster::Models::Radio do
   end
 
   describe '#find' do
-    it 'with valid playlist id' do
+    it 'with valid radio id' do
       radio = client.radios.find(radio_id)
       expect(radio.class).to eql(Napster::Models::Radio)
     end
 
-    it 'with invalid playlist id' do
+    it 'with invalid radio id' do
       invalid_playlist_id = 'invalid'
       expect { client.stations.find(invalid_playlist_id) }
         .to raise_error(ArgumentError)
+    end
+
+    it 'with valid radio name' do
+      radio = client.radios.find(radio_name)
+      expect(radio.class).to eql(Napster::Models::Radio)
     end
   end
 end
