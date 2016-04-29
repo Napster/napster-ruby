@@ -116,12 +116,12 @@ Then you can call metadata endpoints following this pattern.
 ```ruby
 # takes a form of client.[resources].[method]
 # examples
-client.artists.top.data
-client.artists.find(artist_id).data # => returns an artist
-client.artists.find(artist_name).data # => returns a list of search results for the artist
-client.artists.find(artist_id).albums.data
-client.artists.find(artist_id).topAlbums.data
-client.artists.find(artist_id).topTracks({ params: { limit: 5 } }).data
+client.artists.top
+client.artists.find(artist_id) # => returns an artist
+client.artists.find(artist_name) # => returns a list of search results for the artist
+client.artists.find(artist_id).albums
+client.artists.find(artist_id).topAlbums
+client.artists.find(artist_id).topTracks({ params: { limit: 5 } })
 ```
 
 #### Authenticated Member API
@@ -136,7 +136,7 @@ Then you can call metadata endpoints following this pattern.
 ```ruby
 # takes a form of client.me.[resources].[method]
 # examples
-client.me.profile.data
+client.me.profile
 client.me.profile.update({ body: { bio: 'I like turtles' } })
 client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123', 'tra.234'] } })
 ```
