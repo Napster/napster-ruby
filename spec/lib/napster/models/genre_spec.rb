@@ -8,6 +8,7 @@ options = {
   api_secret: config_variables['API_SECRET']
 }
 client = Napster::Client.new(options)
+genre_id = fixture['genre']['id']
 
 describe Napster::Models::Genre do
   it 'has a class' do
@@ -36,42 +37,43 @@ describe Napster::Models::Genre do
 
   describe '.find' do
     it 'with valid genre id' do
-      genre_id = fixture['genre']['id']
       genre = client.genres.find(genre_id)
       expect(genre.class).to eql(Napster::Models::Genre)
     end
 
     it 'with invalid genre id' do
-      genre_id = 'invalid'
-      expect { client.genres.find(genre_id) }.to raise_error(ArgumentError)
+      invalid = 'invalid'
+      expect { client.genres.find(invalid) }.to raise_error(ArgumentError)
     end
   end
 
   it '#top_artists' do
-    genre_id = fixture['genre']['id']
     artists = client.genres.find(genre_id).top_artists
     expect(artists.class).to eql(Array)
     expect(artists.first.class).to eql(Napster::Models::Artist)
   end
 
   it '#top_albums' do
-    genre_id = fixture['genre']['id']
     albums = client.genres.find(genre_id).top_albums
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it '#top_tracks' do
-    genre_id = fixture['genre']['id']
     tracks = client.genres.find(genre_id).top_tracks
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
   end
 
   it '#new_releases' do
-    genre_id = fixture['genre']['id']
     albums = client.genres.find(genre_id).new_releases
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
+  end
+
+  it 'genre.top_listeners' do
+    members = client.genres.find(genre_id).top_listeners(range: 'week')
+    expect(members.class).to eql(Array)
+    expect(members.first.class).to eql(Napster::Models::Member)
   end
 end
