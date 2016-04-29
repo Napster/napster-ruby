@@ -66,4 +66,18 @@ describe Napster::Models::Album do
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
+
+  it 'album.favorited_members' do
+    album_id = fixture['album']['id']
+    members = client.albums.find(album_id).favorited_members
+    expect(members.class).to eql(Array)
+    expect(members.first.class).to eql(Napster::Models::Member)
+  end
+
+  it 'album.top_listeners' do
+    album_id = fixture['album']['id']
+    members = client.albums.find(album_id).top_listeners(range: 'week')
+    expect(members.class).to eql(Array)
+    expect(members.first.class).to eql(Napster::Models::Member)
+  end
 end
