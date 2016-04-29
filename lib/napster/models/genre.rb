@@ -69,6 +69,14 @@ module Napster
         response = @client.get("/genres/#{@id}/albums/new")
         Album.collection(data: response['albums'])
       end
+
+      def top_listeners(params)
+        options = {
+          params: params
+        }
+        response = @client.get("/genres/#{@id}/listeners/top", options)
+        Member.collection(data: response['listeners'])
+      end
     end
   end
 end
