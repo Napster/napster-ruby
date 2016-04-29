@@ -17,16 +17,53 @@ module Napster
         attr_accessor attribute
       end
 
+      attr_accessor :client
+
       def initialize(arg)
+        @client = arg[:client] if arg[:client]
+        return unless arg[:data]
+
         ATTRIBUTES.each do |attribute|
-          send("#{attribute}=", arg[attribute.to_s.camel_case_lower])
+          send("#{attribute}=", arg[:data][attribute.to_s.camel_case_lower])
         end
       end
 
-      def self.collection(playlists)
-        playlists.map do |playlist|
-          Playlist.new(playlist)
+      def self.collection(arg)
+        arg[:data].map do |playlist|
+          Playlist.new(data: playlist, client: @client)
         end
+      end
+
+      # Top level methods
+
+      def playlists_of_the_day
+        response = @client.get('/playlists')
+        Playlist.collection(data: response['playlists'])
+      end
+
+      def featured
+        response = @client.get('/playlists/featured')
+        Playlist.collection(data: response['playlists'])
+      end
+
+      def find(id)
+        e = 'Invalid playlist id'
+        raise ArgumentError, e unless Napster::Moniker.check(id, :playlist)
+        response = @client.get("/playlists/#{id}")
+        Playlist.new(data: response['playlists'].first, client: @client)
+      end
+
+      # Instance methods
+
+      def tracks(params)
+        hash = { params: params }
+        response = @client.get("/playlists/#{@id}/tracks", hash)
+        Track.collection(data: response['tracks'])
+      end
+
+      def tags
+        response = @client.get("/playlists/#{@id}/tags")
+        Tag.collection(data: response['tags'])
       end
     end
   end

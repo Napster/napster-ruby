@@ -9,37 +9,41 @@ options = {
 client = Napster::Client.new(options)
 tag_id = fixture['tag']['id']
 
-describe Napster::Resources::Metadata::TagsResource do
+describe Napster::Models::Tag do
   it 'has a class' do
-    expect(Napster::Resources::Metadata::TagsResource).not_to be nil
+    expect(Napster::Models::Tag).not_to be nil
   end
 
   describe '.new' do
-    it 'should respond to tracks' do
-      expect(client).to respond_to('tags')
+    it 'should instantiate without data' do
+      tag = Napster::Models::Tag.new({})
+
+      expect(tag.class).to eql(Napster::Models::Tag)
+    end
+
+    it 'should instantiate with a client' do
+      tag = Napster::Models::Tag.new(client: client)
+
+      expect(tag.class).to eql(Napster::Models::Tag)
     end
   end
 
   it '.all' do
     tags = client.tags.all
-    expect(tags.class).to eql(Napster::Resources::Metadata::TagsResource)
-    expect(tags.data.class).to eql(Array)
-    expect(tags.data.first.class).to eql(Napster::Models::Tag)
+    expect(tags.class).to eql(Array)
+    expect(tags.first.class).to eql(Napster::Models::Tag)
   end
 
   it '.featured' do
     tags = client.tags.featured
-    expect(tags.class).to eql(Napster::Resources::Metadata::TagsResource)
-    expect(tags.data.class).to eql(Array)
-    expect(tags.data.first.class).to eql(Napster::Models::Tag)
+    expect(tags.class).to eql(Array)
+    expect(tags.first.class).to eql(Napster::Models::Tag)
   end
 
   describe '.find' do
     it 'with valid tag id' do
       tag = client.tags.find(tag_id)
-      expect(tag.class)
-        .to eql(Napster::Resources::Metadata::TagsResource)
-      expect(tag.data.class).to eql(Napster::Models::Tag)
+      expect(tag.class).to eql(Napster::Models::Tag)
     end
 
     it 'with invalid tag id' do

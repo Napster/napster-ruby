@@ -3,8 +3,9 @@ module Napster
   # information such as api_key, api_secret, and :redirect_uri
   # needed to call Napster API.
   class Client
-    RESOURCES_LIST = %w(artists albums tracks genres playlists
-                        members tags).freeze
+    MODELS_LIST = %w(artist album track genre member playlist tag).freeze
+    # RESOURCES_LIST = %w(artists albums tracks genres playlists
+    #                     members tags).freeze
     AUTH_METHODS = [:password_grant, :oauth2].freeze
 
     attr_accessor :api_key,
@@ -36,7 +37,7 @@ module Napster
       }
       @request = Napster::Request.new(request_hash)
       authenticate_client
-      set_resources
+      set_models
     end
 
     # Make a post request to Napster API
@@ -272,7 +273,20 @@ module Napster
     end
 
     def resource_class_name(resource)
-      "Napster::Resources::Metadata::#{resource.capitalize}Resource"
+      # "Napster::Resources::Metadata::#{resource.capitalize}Resource"
+    end
+
+    def set_models
+      MODELS_LIST.each do |model|
+        define_singleton_method("#{model}s") do
+          Object.const_get(model_class_name(model)).new(client: self)
+        end
+      end
+      self
+    end
+
+    def model_class_name(model)
+      "Napster::Models::#{model.capitalize}"
     end
   end
 end
