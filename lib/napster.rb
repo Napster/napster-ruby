@@ -15,5 +15,6 @@ require 'napster/models/genre'
 require 'napster/models/playlist'
 require 'napster/models/tag'
 require 'napster/models/member'
+require 'napster/models/station'
 
 # Authenticated resources
