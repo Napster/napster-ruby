@@ -1,5 +1,12 @@
 require 'spec_helper'
-member = FixtureLoader.init('member.json')
+fixture = FixtureLoader.init('main.json')
+config_hash = ConfigLoader.init
+config_variables = config_hash['config_variables']
+options = {
+  api_key: config_variables['API_KEY'],
+  api_secret: config_variables['API_SECRET']
+}
+client = Napster::Client.new(options)
 
 describe Napster::Models::Member do
   it 'has a class' do
@@ -7,17 +14,30 @@ describe Napster::Models::Member do
   end
 
   describe '.new' do
-    it 'should instantiate' do
-      album = Napster::Models::Member.new({})
+    it 'should instantiate without data' do
+      member = Napster::Models::Member.new({})
 
-      Napster::Models::Member::ATTRIBUTES.each do |attr|
-        expect(album).to respond_to(attr.to_s)
-      end
+      expect(member.class).to eql(Napster::Models::Member)
     end
 
-    it 'should assign values' do
-      member = Napster::Models::Member.new(member['members'].first)
-      expect(member.type).to eql('member')
+    it 'should instantiate with a client' do
+      member = Napster::Models::Member.new(client: client)
+
+      expect(member.class).to eql(Napster::Models::Member)
+    end
+  end
+
+  describe '.find' do
+    it 'with guid' do
+      member_guid = fixture['member']['guid']
+      member = client.members.find(member_guid)
+      expect(member.class).to eql(Napster::Models::Member)
+    end
+
+    it 'with screenname' do
+      member_screen_name = fixture['member']['screen_name']
+      member = client.members.find(member_screen_name)
+      expect(member.class).to eql(Napster::Models::Member)
     end
   end
 end
