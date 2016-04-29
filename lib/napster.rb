@@ -17,5 +17,6 @@ require 'napster/models/tag'
 require 'napster/models/member'
 require 'napster/models/station'
 require 'napster/models/radio'
+require 'napster/models/favorite'
 
 # Authenticated resources

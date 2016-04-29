@@ -4,7 +4,7 @@ module Napster
   # needed to call Napster API.
   class Client
     MODELS_LIST = %w(artist album track genre member playlist tag
-                     station radio).freeze
+                     station radio favorite).freeze
     AUTH_METHODS = [:password_grant, :oauth2].freeze
 
     attr_accessor :api_key,
