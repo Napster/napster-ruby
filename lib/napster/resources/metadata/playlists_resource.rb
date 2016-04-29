@@ -37,13 +37,13 @@ module Napster
 
         def tracks(params)
           hash = { params: params }
-          response = @client.get("/playlists/#{@data.id}/tracks", hash)
+          response = @client.get("/playlists/#{@id}/tracks", hash)
           @data = Napster::Models::Track.collection(response['tracks'])
           self
         end
 
         def tags
-          response = @client.get("/playlists/#{@data.id}/tags")
+          response = @client.get("/playlists/#{@id}/tags")
           @data = Napster::Models::Tag.collection(response['tags'])
           self
         end
