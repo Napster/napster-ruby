@@ -69,17 +69,17 @@ module Napster
 
       def albums
         response = @client.get("/artists/#{@id}/albums")
-        Album.collection(response['albums'])
+        Album.collection(data: response['albums'])
       end
 
       def top_albums
         response = @client.get("/artists/#{@id}/albums/top")
-        Album.collection(response['albums'])
+        Album.collection(data: response['albums'])
       end
 
       def new_albums
         response = @client.get("/artists/#{@id}/albums/new")
-        Album.collection(response['albums'])
+        Album.collection(data: response['albums'])
       end
 
       # TODO: add limits
@@ -90,12 +90,12 @@ module Napster
           }
         }
         response = @client.get("/artists/#{@id}/tracks", options)
-        Track.collection(response['tracks'])
+        Track.collection(data: response['tracks'])
       end
 
       def top_tracks
         response = @client.get("/artists/#{@data.id}/tracks/top")
-        Track.collection(response['tracks'])
+        Track.collection(data: response['tracks'])
       end
     end
   end

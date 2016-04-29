@@ -38,7 +38,7 @@ module Napster
 
       def self.collection(arg)
         arg[:data].map do |album|
-          Album.new(data: album, client: arg[:client])
+          Album.new(data: album, client: @client)
         end
       end
 
