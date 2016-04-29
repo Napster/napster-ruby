@@ -94,8 +94,21 @@ module Napster
       end
 
       def top_tracks
-        response = @client.get("/artists/#{@data.id}/tracks/top")
+        response = @client.get("/artists/#{@id}/tracks/top")
         Track.collection(data: response['tracks'])
+      end
+
+      def favorited_members
+        response = @client.get("/artists/#{@id}/favorited/members")
+        Member.collection(data: response['members'])
+      end
+
+      def top_listeners(params)
+        options = {
+          params: params
+        }
+        response = @client.get("/artists/#{@id}/listeners/top", options)
+        Member.collection(data: response['listeners'])
       end
     end
   end
