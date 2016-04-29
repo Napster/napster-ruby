@@ -43,8 +43,6 @@ module Napster
         Member.collection(data: response['members'], client: @client)
       end
 
-      # Instance methods
-
       def members_who_favorited_artists(id)
         e = 'Invalid playlist id'
         raise ArgumentError, e unless Napster::Moniker.check(id, :artist)
