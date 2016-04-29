@@ -7,7 +7,7 @@ options = {
   api_secret: config_variables['API_SECRET']
 }
 client = Napster::Client.new(options)
-tag = fixture['tag']['id']
+tag_id = fixture['tag']['id']
 
 describe Napster::Models::Tag do
   it 'has a class' do
@@ -25,6 +25,31 @@ describe Napster::Models::Tag do
       tag = Napster::Models::Tag.new(client: client)
 
       expect(tag.class).to eql(Napster::Models::Tag)
+    end
+  end
+
+  it '.all' do
+    tags = client.tags.all
+    expect(tags.class).to eql(Array)
+    expect(tags.first.class).to eql(Napster::Models::Tag)
+  end
+
+  it '.featured' do
+    tags = client.tags.featured
+    expect(tags.class).to eql(Array)
+    expect(tags.first.class).to eql(Napster::Models::Tag)
+  end
+
+  describe '.find' do
+    it 'with valid tag id' do
+      tag = client.tags.find(tag_id)
+      expect(tag.class).to eql(Napster::Models::Tag)
+    end
+
+    it 'with invalid tag id' do
+      invalid_tag_id = 'invalid'
+      expect { client.tags.find(invalid_tag_id) }
+        .to raise_error(ArgumentError)
     end
   end
 end

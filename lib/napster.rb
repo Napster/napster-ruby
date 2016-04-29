@@ -16,7 +16,4 @@ require 'napster/models/playlist'
 require 'napster/models/tag'
 require 'napster/models/member'
 
-# Metadata resources
-require 'napster/resources/metadata/tags_resource'
-
 # Authenticated resources
