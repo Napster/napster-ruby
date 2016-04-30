@@ -114,4 +114,18 @@ describe Napster::Models::Member do
     expect(playlists.class).to eql(Array)
     expect(playlists.first.class).to eql(Napster::Models::Playlist)
   end
+
+  it 'member.chart' do
+    params = { type: 'track' }
+    charts = client.members.find(member_guid).chart(params)
+    expect(charts.class).to eql(Array)
+    expect(charts.first.class).to eql(Napster::Models::Chart)
+  end
+
+  it 'member.chart_for' do
+    params = { type: 'track' }
+    charts = client.members.chart_for(member_guid, params)
+    expect(charts.class).to eql(Array)
+    expect(charts.first.class).to eql(Napster::Models::Chart)
+  end
 end

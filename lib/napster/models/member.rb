@@ -84,6 +84,14 @@ module Napster
         request_favorite_playlists(guid, params)
       end
 
+      def chart(params)
+        request_chart(@id, params)
+      end
+
+      def chart_for(guid, params)
+        request_chart(guid, params)
+      end
+
       private
 
       def request_playlists(guid, params)
@@ -102,6 +110,12 @@ module Napster
         options = { params: params }
         response = @client.get("/members/#{guid}/favorites/playlists", options)
         Playlist.collection(data: response['playlists'], client: @client)
+      end
+
+      def request_chart(guid, params)
+        options = { params: params }
+        response = @client.get("/members/#{guid}/charts", options)
+        Chart.collection(data: response['charts'], client: @client)
       end
     end
   end
