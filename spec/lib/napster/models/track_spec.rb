@@ -7,6 +7,8 @@ options = {
   api_secret: config_variables['API_SECRET']
 }
 client = Napster::Client.new(options)
+track_id = fixture['track']['id']
+track_name = fixture['track']['name']
 
 describe Napster::Models::Track do
   it 'has a class' do
@@ -35,20 +37,17 @@ describe Napster::Models::Track do
 
   describe '#find' do
     it 'by id' do
-      track_id = fixture['track']['id']
       track = client.tracks.find(track_id)
       expect(track.class).to eql(Napster::Models::Track)
     end
 
     it 'by name' do
-      track_name = fixture['track']['name']
       track = client.tracks.find(track_name)
       expect(track.class).to eql(Napster::Models::Track)
     end
   end
 
   it '#find_all_by_name' do
-    track_name = fixture['track']['name']
     tracks = client.tracks.find_all_by_name(track_name)
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
