@@ -7,6 +7,7 @@ options = {
   api_secret: config_variables['API_SECRET']
 }
 client = Napster::Client.new(options)
+album_id = fixture['album']['id']
 
 describe Napster::Models::Album do
   it 'has a class' do
@@ -41,7 +42,6 @@ describe Napster::Models::Album do
 
   describe '#find' do
     it 'by id' do
-      album_id = fixture['album']['id']
       album = client.albums.find(album_id)
       expect(album.class).to eql(Napster::Models::Album)
     end
@@ -54,28 +54,24 @@ describe Napster::Models::Album do
   end
 
   it 'album.tracks' do
-    album_id = fixture['album']['id']
     tracks = client.albums.find(album_id).tracks
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
   end
 
   it 'album.similar' do
-    album_id = fixture['album']['id']
     albums = client.albums.find(album_id).similar
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it 'album.favorited_members' do
-    album_id = fixture['album']['id']
     members = client.albums.find(album_id).favorited_members
     expect(members.class).to eql(Array)
     expect(members.first.class).to eql(Napster::Models::Member)
   end
 
   it 'album.top_listeners' do
-    album_id = fixture['album']['id']
     members = client.albums.find(album_id).top_listeners(range: 'week')
     expect(members.class).to eql(Array)
     expect(members.first.class).to eql(Napster::Models::Member)
