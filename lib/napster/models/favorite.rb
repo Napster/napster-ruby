@@ -49,6 +49,17 @@ module Napster
         response = @client.get("/artists/#{id}/favorited/members")
         Member.collection(data: response['members'], client: @client)
       end
+
+      def member_favorites_for(id)
+        request_member_favorites(id)
+      end
+
+      private
+
+      def request_member_favorites(id)
+        response = @client.get("/favorites/#{id}/members")
+        Member.collection(data: response['members'], client: @client)
+      end
     end
   end
 end
