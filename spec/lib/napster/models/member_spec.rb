@@ -7,6 +7,7 @@ options = {
   api_secret: config_variables['API_SECRET']
 }
 client = Napster::Client.new(options)
+member_guid = fixture['member']['guid']
 
 describe Napster::Models::Member do
   it 'has a class' do
@@ -29,7 +30,6 @@ describe Napster::Models::Member do
 
   describe '.find' do
     it 'with guid' do
-      member_guid = fixture['member']['guid']
       member = client.members.find(member_guid)
       expect(member.class).to eql(Napster::Models::Member)
     end
@@ -53,5 +53,45 @@ describe Napster::Models::Member do
       expected = client.members.screenname_available?(member_screen_name)
       expect(expected).to eql(false)
     end
+  end
+
+  it 'member.playlists' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    playlists = client.members.find(member_guid).playlists(params)
+    expect(playlists.class).to eql(Array)
+    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+  end
+
+  it 'member.playlists_for' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    playlists = client.members.playlists_for(member_guid, params)
+    expect(playlists.class).to eql(Array)
+    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+  end
+
+  it 'member.favorites' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    favoites = client.members.find(member_guid).favorites(params)
+    expect(favoites.class).to eql(Array)
+    expect(favoites.first.class).to eql(Napster::Models::Favorite)
+  end
+
+  it 'member.favorites_for' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    favoites = client.members.favorites_for(member_guid, params)
+    expect(favoites.class).to eql(Array)
+    expect(favoites.first.class).to eql(Napster::Models::Favorite)
   end
 end

@@ -50,12 +50,44 @@ module Napster
 
       def find(arg)
         response = @client.get("/members/#{arg}")
-        Member.new(data: response['members'].first)
+        Member.new(data: response['members'].first, client: @client)
       end
 
       def screenname_available?(screenname)
         response = @client.get("/screenname/#{screenname}")
         response['screenName'].nil?
+      end
+
+      # TODO: .avatar
+
+      def playlists(params)
+        request_playlists(@id, params)
+      end
+
+      def playlists_for(guid, params)
+        request_playlists(guid, params)
+      end
+
+      def favorites(params)
+        request_favorites(@id, params)
+      end
+
+      def favorites_for(guid, params)
+        request_favorites(guid, params)
+      end
+
+      private
+
+      def request_playlists(guid, params)
+        options = { params: params }
+        response = @client.get("/members/#{guid}/library/playlists", options)
+        Playlist.collection(data: response['playlists'], client: @client)
+      end
+
+      def request_favorites(guid, params)
+        options = { params: params }
+        response = @client.get("/members/#{guid}/favorites", options)
+        Favorite.collection(data: response['favorites'], client: @client)
       end
     end
   end
