@@ -40,4 +40,18 @@ describe Napster::Models::Member do
       expect(member.class).to eql(Napster::Models::Member)
     end
   end
+
+  describe '#screenname_available?' do
+    it 'is not available' do
+      member_screen_name = fixture['member']['screen_name']
+      expected = client.members.screenname_available?(member_screen_name)
+      expect(expected).to eql(false)
+    end
+
+    it 'is available' do
+      member_screen_name = 'this-does-not-exist-12345'
+      expected = client.members.screenname_available?(member_screen_name)
+      expect(expected).to eql(false)
+    end
+  end
 end

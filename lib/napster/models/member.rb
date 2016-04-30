@@ -52,6 +52,11 @@ module Napster
         response = @client.get("/members/#{arg}")
         Member.new(data: response['members'].first)
       end
+
+      def screenname_available?(screenname)
+        response = @client.get("/screenname/#{screenname}")
+        response['screenName'].nil?
+      end
     end
   end
 end
