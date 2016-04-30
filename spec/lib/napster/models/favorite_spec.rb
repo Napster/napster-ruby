@@ -40,4 +40,10 @@ describe Napster::Models::Favorite do
     expect(members.class).to eql(Array)
     expect(members.first.class).to eql(Napster::Models::Member)
   end
+
+  it 'favorite.member_favorites_for' do
+    members = client.favorites.member_favorites_for(album_id)
+    expect(members.class).to eql(Array)
+    expect(members.first.class).to eql(Napster::Models::Member)
+  end
 end
