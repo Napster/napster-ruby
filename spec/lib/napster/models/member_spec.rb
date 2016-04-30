@@ -94,4 +94,24 @@ describe Napster::Models::Member do
     expect(favoites.class).to eql(Array)
     expect(favoites.first.class).to eql(Napster::Models::Favorite)
   end
+
+  it 'member.favorite_playlists' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    playlists = client.members.find(member_guid).favorite_playlists(params)
+    expect(playlists.class).to eql(Array)
+    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+  end
+
+  it 'member.favorite_playlists_for' do
+    params = {
+      limit: 3,
+      offset: 0
+    }
+    playlists = client.members.favorite_playlists_for(member_guid, params)
+    expect(playlists.class).to eql(Array)
+    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+  end
 end

@@ -76,6 +76,14 @@ module Napster
         request_favorites(guid, params)
       end
 
+      def favorite_playlists(params)
+        request_favorite_playlists(@id, params)
+      end
+
+      def favorite_playlists_for(guid, params)
+        request_favorite_playlists(guid, params)
+      end
+
       private
 
       def request_playlists(guid, params)
@@ -88,6 +96,12 @@ module Napster
         options = { params: params }
         response = @client.get("/members/#{guid}/favorites", options)
         Favorite.collection(data: response['favorites'], client: @client)
+      end
+
+      def request_favorite_playlists(guid, params)
+        options = { params: params }
+        response = @client.get("/members/#{guid}/favorites/playlists", options)
+        Playlist.collection(data: response['playlists'], client: @client)
       end
     end
   end
