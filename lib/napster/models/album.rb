@@ -49,6 +49,11 @@ module Napster
         Album.collection(data: response['albums'])
       end
 
+      def staff_picks
+        response = @client.get('/albums/picks')
+        Album.collection(data: response['albums'])
+      end
+
       def top
         response = @client.get('/albums/top')
         Album.collection(data: response['albums'])
@@ -84,24 +89,6 @@ module Napster
       def tracks
         response = @client.get("/albums/#{@id}/tracks")
         Track.collection(data: response['tracks'])
-      end
-
-      def similar
-        response = @client.get("/albums/#{@id}/similar")
-        Album.collection(data: response['albums'])
-      end
-
-      def favorited_members
-        response = @client.get("/albums/#{@id}/favorited/members")
-        Member.collection(data: response['members'])
-      end
-
-      def top_listeners(params)
-        options = {
-          params: params
-        }
-        response = @client.get("/albums/#{@id}/listeners/top", options)
-        Member.collection(data: response['listeners'])
       end
     end
   end
