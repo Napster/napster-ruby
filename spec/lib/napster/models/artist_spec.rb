@@ -59,12 +59,6 @@ describe Napster::Models::Artist do
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
-  it 'artist.top_albums' do
-    albums = client.artists.find(artist_id).top_albums
-    expect(albums.class).to eql(Array)
-    expect(albums.first.class).to eql(Napster::Models::Album)
-  end
-
   it 'artist.new_albums' do
     albums = client.artists.find(artist_id).new_albums
     expect(albums.class).to eql(Array)
@@ -81,17 +75,5 @@ describe Napster::Models::Artist do
     albums = client.artists.find(artist_id).tracks
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Track)
-  end
-
-  it 'artist.favorited_members' do
-    members = client.artists.find(artist_id).favorited_members
-    expect(members.class).to eql(Array)
-    expect(members.first.class).to eql(Napster::Models::Member)
-  end
-
-  it 'artist.top_listeners' do
-    members = client.artists.find(artist_id).top_listeners(range: 'week')
-    expect(members.class).to eql(Array)
-    expect(members.first.class).to eql(Napster::Models::Member)
   end
 end
