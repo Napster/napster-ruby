@@ -38,11 +38,6 @@ module Napster
         Tag.collection(data: response['tags'])
       end
 
-      def featured
-        response = @client.get('/tags/featured')
-        Tag.collection(data: response['tags'])
-      end
-
       def find(id)
         e = 'Invalid tag id'
         raise ArgumentError, e unless Napster::Moniker.check(id, :tag)
