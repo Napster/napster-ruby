@@ -41,11 +41,6 @@ module Napster
         end
       end
 
-      def top
-        response = @client.get('/tracks/top')
-        Track.collection(data: response['tracks'])
-      end
-
       def find(arg)
         return find_by_id(arg) if Napster::Moniker.check(arg, :track)
         find_by_name(arg)

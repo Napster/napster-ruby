@@ -29,12 +29,6 @@ describe Napster::Models::Track do
     end
   end
 
-  it '#top' do
-    tracks = client.tracks.top
-    expect(tracks.class).to eql(Array)
-    expect(tracks.first.class).to eql(Napster::Models::Track)
-  end
-
   describe '#find' do
     it 'by id' do
       track = client.tracks.find(track_id)
