@@ -34,12 +34,6 @@ describe Napster::Models::Tag do
     expect(tags.first.class).to eql(Napster::Models::Tag)
   end
 
-  it '.featured' do
-    tags = client.tags.featured
-    expect(tags.class).to eql(Array)
-    expect(tags.first.class).to eql(Napster::Models::Tag)
-  end
-
   describe '.find' do
     it 'with valid tag id' do
       tag = client.tags.find(tag_id)
