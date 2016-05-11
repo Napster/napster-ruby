@@ -151,7 +151,7 @@ module Napster
 
     # Include Me module for calling authenticated methods
     def me
-      Napster::Me
+      Napster::Me.new(self)
     end
 
     private

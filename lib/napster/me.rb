@@ -1,8 +1,14 @@
 module Napster
-  module Me
-    def self.profile
+  class Me
+    attr_accessor :client
+
+    def initialize(client)
+      @client = client
+    end
+
+    def profile
       response = @client.get("/me")
-      Profile.new(data: response['me'], client: @client)
+      Napster::Models::Profile.new(data: response['me'], client: @client)
     end
   end
 end
