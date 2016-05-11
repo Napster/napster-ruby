@@ -55,7 +55,8 @@ describe Napster::Me do
       favorite_statuses = client.me.favorites.status(ids)
 
       expect(favorite_statuses.class).to eql(Array)
-      expect(favorite_statuses.first.class).to eql(Napster::Models::FavoriteStatus)
+      expect(favorite_statuses.first.class)
+        .to eql(Napster::Models::FavoriteStatus)
     end
   end
 end

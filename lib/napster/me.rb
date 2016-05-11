@@ -1,4 +1,5 @@
 module Napster
+  # Authenticated endpoints under /me namespace
   class Me
     MODELS_LIST = %w(favorite).freeze
     attr_accessor :client

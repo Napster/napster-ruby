@@ -54,7 +54,7 @@ module Napster
             'Accept-Version' => '2.0.0'
           }
         }
-        response = @client.get("/me", get_options)
+        response = @client.get('/me', get_options)
         Profile.new(data: response['me'], client: @client)
       end
 

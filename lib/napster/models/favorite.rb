@@ -65,7 +65,7 @@ module Napster
             'Accept-Version' => '2.0.0'
           }
         }
-        response = @client.get("/me/favorites", get_options)
+        response = @client.get('/me/favorites', get_options)
         Favorite.collection(data: response['favorites'], client: @client)
       end
 
@@ -80,7 +80,7 @@ module Napster
             'Accept-Version' => '2.0.0'
           }
         }
-        response = @client.get("/me/favorites/status", get_options)
+        response = @client.get('/me/favorites/status', get_options)
         FavoriteStatus.collection(data: response['status'], client: @client)
       end
 
