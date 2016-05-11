@@ -15,20 +15,20 @@ describe Napster::Me do
     expect(Napster::Me).not_to be nil
   end
 
-  it '.profile' do
-    profile = client.me.profile
+  it '#get' do
+    profile = client.me.profiles.get
 
     expect(profile.class).to eql(Napster::Models::Profile)
   end
 
-  it '.update_profile' do
+  it '#update' do
     body = {
       'me' => {
         'bio' => Faker::Lorem.word
       }
     }
-    client.me.update_profile(body)
-    profile = client.me.profile
+    client.me.profiles.update(body)
+    profile = client.me.profiles.get
 
     expect(profile.bio).to eql(body['me']['bio'])
   end

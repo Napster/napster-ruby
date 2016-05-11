@@ -45,6 +45,29 @@ module Napster
           Profile.new(data: profile, client: @client)
         end
       end
+
+      def get
+        get_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get("/me", get_options)
+        Profile.new(data: response['me'], client: @client)
+      end
+
+      def update(body)
+        put_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.put('/me', Oj.dump(body), put_options)
+      end
     end
   end
 end
