@@ -171,6 +171,7 @@ request_hash = {
 client.me.create_playlist(request_hash)
 ```
 
+<!--
 ### Versioning
 
 The Napster gem supports Napster API version 2.x and above only.
@@ -196,6 +197,7 @@ client.version = 'v2.1'
 client.v2_2.artists.top # returns top artists using v2.2
 client.artists.top # returns top artists using v2.1
 ```
+-->
 
 ## Development
 
