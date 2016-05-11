@@ -245,11 +245,9 @@ describe Napster::Client do
       includes = %w(username password)
       client = ClientSpecHelper.get_client(includes)
       client.authenticate(:password_grant)
-      playlists = ClientSpecHelper.get_me_library_playlists(client)
-      playlist = playlists['playlists'][0]
       body = {
-        'playlists' => {
-          'name' => Faker::Lorem.word
+        'me' => {
+          'bio' => Faker::Lorem.word
         }
       }
       put_options = {
@@ -259,10 +257,8 @@ describe Napster::Client do
           'Accept-Version' => '2.0.0'
         }
       }
-      response = client.put('/me/library/playlists/' + playlist['id'],
-                            Oj.dump(body), put_options)
-      updated_playlist = response['playlists'][0]
-      expect(updated_playlist['name']).to eql(body['playlists']['name'])
+      response = client.put('/me', Oj.dump(body), put_options)
+      expect(response['me']['bio']).to eql(body['me']['bio'])
     end
   end
 
