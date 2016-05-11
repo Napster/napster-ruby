@@ -3,6 +3,7 @@ module Napster
     attr_accessor :client
 
     def initialize(client)
+      validate_access_token(client)
       @client = client
     end
 
@@ -27,6 +28,12 @@ module Napster
         }
       }
       @client.put('/me', Oj.dump(body), put_options)
+    end
+
+    private
+
+    def validate_access_token(client)
+      raise 'The client is missing access_token' unless client.access_token
     end
   end
 end
