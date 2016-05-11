@@ -58,5 +58,14 @@ describe Napster::Me do
       expect(favorite_statuses.first.class)
         .to eql(Napster::Models::FavoriteStatus)
     end
+
+    it '#add' do
+      ids = [album_id, artist_id, track_id]
+      favorite_statuses = client.me.favorites.add(ids)
+
+      expect(favorite_statuses.class).to eql(Array)
+      expect(favorite_statuses.first.class)
+        .to eql(Napster::Models::FavoriteStatus)
+    end
   end
 end

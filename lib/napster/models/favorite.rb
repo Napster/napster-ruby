@@ -84,11 +84,32 @@ module Napster
         FavoriteStatus.collection(data: response['status'], client: @client)
       end
 
+      def add(ids)
+        post_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        body = prepare_add_favorites_body(ids)
+        response = @client.post('/me/favorites', Oj.dump(body), post_options)
+        status(ids)
+      end
+
       private
 
       def request_member_favorites(id)
         response = @client.get("/favorites/#{id}/members")
         Member.collection(data: response['members'], client: @client)
+      end
+
+      def prepare_add_favorites_body(ids)
+        favorites_body = []
+        ids.each do |id|
+          favorites_body << { id: id }
+        end
+        { favorites: favorites_body }
       end
     end
   end
