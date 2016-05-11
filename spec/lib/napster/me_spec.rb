@@ -77,4 +77,16 @@ describe Napster::Me do
       end
     end
   end
+
+  describe '.listening_history' do
+    it '#get' do
+      params = {
+        limit: 10
+      }
+      tracks = client.me.listening_history(params)
+
+      expect(tracks.class).to eql(Array)
+      expect(tracks.first.class).to eql(Napster::Models::Track)
+    end
+  end
 end

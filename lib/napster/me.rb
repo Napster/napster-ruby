@@ -10,6 +10,20 @@ module Napster
       set_models
     end
 
+    def listening_history(params)
+      get_options = {
+        params: params,
+        headers: {
+          Authorization: 'Bearer ' + @client.access_token,
+          'Content-Type' => 'application/json',
+          'Accept-Version' => '2.0.0'
+        }
+      }
+      response = @client.get('/me/listens', get_options)
+      Napster::Models::Track
+        .collection(data: response['tracks'], client: @client)
+    end
+
     private
 
     def validate_access_token(client)

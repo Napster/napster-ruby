@@ -1,5 +1,4 @@
 require 'spec_helper'
-fixture = FixtureLoader.init('main.json')
 config_hash = ConfigLoader.init
 config_variables = config_hash['config_variables']
 options = {
