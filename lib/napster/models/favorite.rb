@@ -69,6 +69,21 @@ module Napster
         Favorite.collection(data: response['favorites'], client: @client)
       end
 
+      def status(ids)
+        get_options = {
+          params: {
+            ids: ids
+          },
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get("/me/favorites/status", get_options)
+        FavoriteStatus.collection(data: response['status'], client: @client)
+      end
+
       private
 
       def request_member_favorites(id)

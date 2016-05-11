@@ -1,4 +1,5 @@
 require 'spec_helper'
+fixture = FixtureLoader.init('main.json')
 config_hash = ConfigLoader.init
 config_variables = config_hash['config_variables']
 options = {
@@ -9,6 +10,9 @@ options = {
 }
 client = Napster::Client.new(options)
 client.authenticate(:password_grant)
+album_id = fixture['album']['id']
+artist_id = fixture['artist']['id']
+track_id = fixture['track']['id']
 
 describe Napster::Me do
   it 'has a class' do
@@ -44,6 +48,14 @@ describe Napster::Me do
 
       expect(favorites.class).to eql(Array)
       expect(favorites.first.class).to eql(Napster::Models::Favorite)
+    end
+
+    it '#status' do
+      ids = [album_id, artist_id, track_id]
+      favorite_statuses = client.me.favorites.status(ids)
+
+      expect(favorite_statuses.class).to eql(Array)
+      expect(favorite_statuses.first.class).to eql(Napster::Models::FavoriteStatus)
     end
   end
 end
