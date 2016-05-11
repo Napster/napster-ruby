@@ -93,8 +93,20 @@ module Napster
           }
         }
         body = prepare_add_favorites_body(ids)
-        response = @client.post('/me/favorites', Oj.dump(body), post_options)
+        @client.post('/me/favorites', Oj.dump(body), post_options)
         status(ids)
+      end
+
+      def remove(id)
+        delete_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.delete("/me/favorites/#{id}", delete_options)
+        status([id])
       end
 
       private

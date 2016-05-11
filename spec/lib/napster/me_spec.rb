@@ -67,5 +67,14 @@ describe Napster::Me do
       expect(favorite_statuses.first.class)
         .to eql(Napster::Models::FavoriteStatus)
     end
+
+    it 'remove' do
+      ids = [album_id, artist_id, track_id]
+      ids.each do |id|
+        favorite_status = client.me.favorites.remove(id)
+        expect(favorite_status.first.class)
+          .to eql(Napster::Models::FavoriteStatus)
+      end
+    end
   end
 end
