@@ -24,6 +24,15 @@ describe Napster::Client do
       expect(client.expires_in).to_not be_nil
     end
 
+    it 'with just an access_token' do
+      options = {
+        access_token: Faker::Lorem.characters(20)
+      }
+      client = Napster::Client.new(options)
+
+      expect(client.access_token).to_not be_nil
+    end
+
     it 'without attributes' do
       options = {
         api_key: Faker::Lorem.characters(20),
