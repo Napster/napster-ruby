@@ -255,22 +255,6 @@ module Napster
       raise 'The client is missing redirect_uri' unless @redirect_uri
     end
 
-    # Helper method for Client.new
-    #   Set resources methods on the client
-    # @return [Client]
-    def set_resources
-      RESOURCES_LIST.each do |resource|
-        define_singleton_method(resource) do
-          Object.const_get(resource_class_name(resource)).new(self)
-        end
-      end
-      self
-    end
-
-    def resource_class_name(resource)
-      # "Napster::Resources::Metadata::#{resource.capitalize}Resource"
-    end
-
     def set_models
       MODELS_LIST.each do |model|
         define_singleton_method("#{model}s") do
