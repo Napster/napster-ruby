@@ -16,7 +16,7 @@ describe Napster::Me do
   end
 
   it '#get' do
-    profile = client.me.profiles.get
+    profile = client.me.profile.get
 
     expect(profile.class).to eql(Napster::Models::Profile)
   end
@@ -27,8 +27,8 @@ describe Napster::Me do
         'bio' => Faker::Lorem.word
       }
     }
-    client.me.profiles.update(body)
-    profile = client.me.profiles.get
+    client.me.profile.update(body)
+    profile = client.me.profile.get
 
     expect(profile.bio).to eql(body['me']['bio'])
   end

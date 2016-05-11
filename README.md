@@ -146,7 +146,7 @@ Then you can call metadata endpoints following this pattern.
 ```ruby
 # takes a form of client.me.[resources].[method]
 # examples
-client.me.profile
+client.me.profile.get
 client.me.profile.update({ body: { bio: 'I like turtles' } })
 client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123', 'tra.234'] } })
 ```
