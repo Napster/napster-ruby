@@ -15,21 +15,35 @@ describe Napster::Me do
     expect(Napster::Me).not_to be nil
   end
 
-  it '#get' do
-    profile = client.me.profile.get
+  describe '.profile' do
+    it '#get' do
+      profile = client.me.profile.get
 
-    expect(profile.class).to eql(Napster::Models::Profile)
+      expect(profile.class).to eql(Napster::Models::Profile)
+    end
+
+    it '#update' do
+      body = {
+        'me' => {
+          'bio' => Faker::Lorem.word
+        }
+      }
+      client.me.profile.update(body)
+      profile = client.me.profile.get
+
+      expect(profile.bio).to eql(body['me']['bio'])
+    end
   end
 
-  it '#update' do
-    body = {
-      'me' => {
-        'bio' => Faker::Lorem.word
+  describe '.favorites' do
+    it '#get' do
+      params = {
+        limit: 10
       }
-    }
-    client.me.profile.update(body)
-    profile = client.me.profile.get
+      favorites = client.me.favorites.get(params)
 
-    expect(profile.bio).to eql(body['me']['bio'])
+      expect(favorites.class).to eql(Array)
+      expect(favorites.first.class).to eql(Napster::Models::Favorite)
+    end
   end
 end
