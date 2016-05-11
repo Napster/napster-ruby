@@ -8,6 +8,7 @@ options = {
   password: config_variables['PASSWORD']
 }
 client = Napster::Client.new(options)
+client.authenticate(:password_grant)
 
 describe Napster::Me do
   it 'has a class' do
@@ -16,6 +17,19 @@ describe Napster::Me do
 
   it '.profile' do
     profile = client.me.profile
+
     expect(profile.class).to eql(Napster::Models::Profile)
+  end
+
+  it '.update_profile' do
+    body = {
+      'me' => {
+        'bio' => Faker::Lorem.word
+      }
+    }
+    client.me.update_profile(body)
+    profile = client.me.profile
+
+    expect(profile.bio).to eql(body['me']['bio'])
   end
 end

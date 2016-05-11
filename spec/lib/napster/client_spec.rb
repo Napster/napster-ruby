@@ -307,11 +307,11 @@ describe Napster::Client do
     options = {
       api_key: config_variables['API_KEY'],
       api_secret: config_variables['API_SECRET'],
-      redirect_uri: config_variables['REDIRECT_URI'],
-      state: Faker::Lorem.characters(20)
+      username: config_variables['USERNAME'],
+      password: config_variables['PASSWORD']
     }
     client = Napster::Client.new(options)
 
-    expect(client.me).to eql(Napster::Me)
+    expect(client.me.class).to eql(Napster::Me)
   end
 end

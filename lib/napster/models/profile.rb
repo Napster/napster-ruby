@@ -35,7 +35,6 @@ module Napster
       def initialize(arg)
         @client = arg[:client] if arg[:client]
         return unless arg[:data]
-
         ATTRIBUTES.each do |attribute|
           send("#{attribute}=", arg[:data][attribute.to_s.camel_case_lower])
         end
