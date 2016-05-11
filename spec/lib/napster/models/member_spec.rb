@@ -62,13 +62,17 @@ describe Napster::Models::Member do
   it 'member.playlists' do
     playlists = client.members.find(member_guid).playlists(params)
     expect(playlists.class).to eql(Array)
-    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+    unless playlists.empty?
+      expect(playlists.first.class).to eql(Napster::Models::Playlist)
+    end
   end
 
   it 'member.playlists_for' do
     playlists = client.members.playlists_for(member_guid, params)
     expect(playlists.class).to eql(Array)
-    expect(playlists.first.class).to eql(Napster::Models::Playlist)
+    unless playlists.empty?
+      expect(playlists.first.class).to eql(Napster::Models::Playlist)
+    end
   end
 
   it 'member.favorites' do
