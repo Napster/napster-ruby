@@ -24,8 +24,6 @@ module Napster
     #   object.
     # @param options [Hash] Required options are :api_key and :api_secret
     def initialize(options)
-      validate_initialize(options)
-
       options.each do |name, value|
         instance_variable_set("@#{name}", value)
       end
@@ -169,13 +167,6 @@ module Napster
 
     def authenticate_via_oauth2?
       @api_key && @api_secret && @redirect_uri && @auth_code
-    end
-
-    def validate_initialize(options)
-      api_key = options[:api_key]
-      api_secret = options[:api_secret]
-      raise 'The client is missing api_key' unless api_key
-      raise 'The client is missing api_secret' unless api_secret
     end
 
     def validate_request(path, options)

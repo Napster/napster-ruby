@@ -37,6 +37,16 @@ options = {
 client = Napster::Client.new(options)
 ```
 
+You can still set up a client with just an access token. However, you will
+not be able to refresh the access token and you won't be able to make any
+metadata calls. Only authenticated member calls will be allowed with this
+client.
+
+``` ruby
+options = { access_token: 'ACCESS_TOKEN' }
+client = Napster::Client.new(options)
+```
+
 ### Getting an access token
 
 #### Password grant

@@ -24,16 +24,13 @@ describe Napster::Client do
       expect(client.expires_in).to_not be_nil
     end
 
-    describe 'validate' do
-      it 'should reject when api_key is missing' do
-        options = { api_secret: Faker::Lorem.characters(20) }
-        expect { Napster::Client.new(options) }.to raise_error(RuntimeError)
-      end
+    it 'with just an access_token' do
+      options = {
+        access_token: Faker::Lorem.characters(20)
+      }
+      client = Napster::Client.new(options)
 
-      it 'should reject when api_secret is missing' do
-        options = { api_key: Faker::Lorem.characters(20) }
-        expect { Napster::Client.new(options) }.to raise_error(RuntimeError)
-      end
+      expect(client.access_token).to_not be_nil
     end
 
     it 'without attributes' do
