@@ -302,4 +302,16 @@ describe Napster::Client do
       expect(client.expires_in).to_not be_nil
     end
   end
+
+  it 'me' do
+    options = {
+      api_key: config_variables['API_KEY'],
+      api_secret: config_variables['API_SECRET'],
+      redirect_uri: config_variables['REDIRECT_URI'],
+      state: Faker::Lorem.characters(20)
+    }
+    client = Napster::Client.new(options)
+
+    expect(client.me).to eql(Napster::Me)
+  end
 end

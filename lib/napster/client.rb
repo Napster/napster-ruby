@@ -149,6 +149,11 @@ module Napster
       Napster::Request::HOST_URL + '/oauth/authorize?' + query_params_string
     end
 
+    # Include Me module for calling authenticated methods
+    def me
+      Napster::Me
+    end
+
     private
 
     # Helper method for .new, choose authentication method, and authenticate
