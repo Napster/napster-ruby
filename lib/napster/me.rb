@@ -24,6 +24,10 @@ module Napster
         .collection(data: response['tracks'], client: @client)
     end
 
+    def library
+      Napster::Models::Library.new(client: @client)
+    end
+
     private
 
     def validate_access_token(client)

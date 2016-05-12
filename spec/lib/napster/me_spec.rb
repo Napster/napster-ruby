@@ -79,12 +79,20 @@ describe Napster::Me do
   end
 
   it '.listening_history' do
-    params = {
-      limit: 10
-    }
+    params = { limit: 10 }
     tracks = client.me.listening_history(params)
 
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
+  end
+
+  describe '.library' do
+    it '.library.artists' do
+      params = { limit: 10 }
+      artists = client.me.library.artists(params)
+
+      expect(artists.class).to eql(Array)
+      expect(artists.first.class).to eql(Napster::Models::Artist)
+    end
   end
 end
