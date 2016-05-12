@@ -94,5 +94,49 @@ describe Napster::Me do
       expect(artists.class).to eql(Array)
       expect(artists.first.class).to eql(Napster::Models::Artist)
     end
+
+    it '.library.artist_albums' do
+      params = { limit: 10 }
+      albums = client.me.library.artist_albums(artist_id, params)
+
+      expect(albums.class).to eql(Array)
+      expect(albums.first.class).to eql(Napster::Models::Album)
+    end
+
+    it '.library.artist_tracks' do
+      params = { limit: 10 }
+      tracks = client.me.library.artist_tracks(artist_id, params)
+
+      expect(tracks.class).to eql(Array)
+      expect(tracks.first.class).to eql(Napster::Models::Track)
+    end
+
+    it '.library.albums' do
+      params = { limit: 10 }
+      albums = client.me.library.albums(params)
+
+      expect(albums.class).to eql(Array)
+      expect(albums.first.class).to eql(Napster::Models::Album)
+    end
+
+    it '.library.album_tracks' do
+      params = { limit: 10 }
+      tracks = client.me.library.album_tracks(album_id, params)
+
+      expect(tracks.class).to eql(Array)
+      unless tracks.empty?
+        expect(tracks.first.class).to eql(Napster::Models::Track)
+      end
+    end
+
+    it '.library.tracks' do
+      params = { limit: 10 }
+      tracks = client.me.library.tracks(params)
+
+      expect(tracks.class).to eql(Array)
+      unless tracks.empty?
+        expect(tracks.first.class).to eql(Napster::Models::Track)
+      end
+    end
   end
 end

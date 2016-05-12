@@ -21,6 +21,74 @@ module Napster
         response = @client.get('/me/library/artists', get_options)
         Artist.collection(data: response['artists'], client: @client)
       end
+
+      def artist_albums(artist_id, params)
+        path = "/me/library/artists/#{artist_id}/albums"
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, get_options)
+        Album.collection(data: response['albums'], client: @client)
+      end
+
+      def artist_tracks(artist_id, params)
+        path = "/me/library/artists/#{artist_id}/tracks"
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, get_options)
+        Track.collection(data: response['tracks'], client: @client)
+      end
+
+      def albums(params)
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/library/albums', get_options)
+        Album.collection(data: response['albums'], client: @client)
+      end
+
+      def album_tracks(album_id, params)
+        path = "/me/library/albums/#{album_id}/tracks"
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, get_options)
+        Track.collection(data: response['tracks'], client: @client)
+      end
+
+      def tracks(params)
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/library/tracks', get_options)
+        Track.collection(data: response['tracks'], client: @client)
+      end
     end
   end
 end
