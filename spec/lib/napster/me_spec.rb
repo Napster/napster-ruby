@@ -178,5 +178,23 @@ describe Napster::Me do
       playlist = client.me.playlists.find(playlist.id)
       expect(playlist.class).to eql(Napster::Models::Playlist) unless playlist
     end
+
+    describe '.update' do
+      it '.me.playlists.update' do
+        public_playlist = client.playlists.playlists_of_the_day.first
+        playlist_hash = {
+          'id' => public_playlist.id,
+          'name' => Faker::Lorem.sentence
+        }
+        playlist = client.me.playlists.create(playlist_hash)
+        new_name = {
+          'name' => Faker::Lorem.sentence
+        }
+        updated_playlist = client.me.playlists.update(playlist.id, new_name)
+
+        expect(updated_playlist.class).to eql(Napster::Models::Playlist)
+        expect(updated_playlist.name).to eql(new_name['name'])
+      end
+    end
   end
 end

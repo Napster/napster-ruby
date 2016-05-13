@@ -100,14 +100,28 @@ module Napster
       def create(playlist_hash)
         body = Oj.dump({ 'playlists' => playlist_hash })
         path = '/me/library/playlists'
-        get_options = {
+        options = {
           headers: {
             Authorization: 'Bearer ' + @client.access_token,
             'Content-Type' => 'application/json',
             'Accept-Version' => '2.0.0'
           }
         }
-        response = @client.post(path, body, get_options)
+        response = @client.post(path, body, options)
+        Playlist.new(data: response['playlists'].first, client: @client)
+      end
+
+      def update(playlist_id, playlist_hash)
+        body = Oj.dump({ 'playlists' => playlist_hash })
+        path = "/me/library/playlists/#{playlist_id}"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.put(path, body, options)
         Playlist.new(data: response['playlists'].first, client: @client)
       end
     end
