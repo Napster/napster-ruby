@@ -166,13 +166,15 @@ describe Napster::Me do
       end
     end
 
-    it '.authenticated_find' do
+    it '.authenticated_find and .create' do
       public_playlist = client.playlists.playlists_of_the_day.first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+
+      # uses .authenticated_find
       playlist = client.me.playlists.find(playlist.id)
       expect(playlist.class).to eql(Napster::Models::Playlist) unless playlist
     end
