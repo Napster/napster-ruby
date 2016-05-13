@@ -94,11 +94,13 @@ module Napster
           }
         }
         response = @client.get(path, get_options)
+        return nil if response['playlists'].empty?
+
         Playlist.new(data: response['playlists'].first, client: @client)
       end
 
       def create(playlist_hash)
-        body = Oj.dump({ 'playlists' => playlist_hash })
+        body = Oj.dump('playlists' => playlist_hash)
         path = '/me/library/playlists'
         options = {
           headers: {
@@ -112,7 +114,7 @@ module Napster
       end
 
       def update(playlist_id, playlist_hash)
-        body = Oj.dump({ 'playlists' => playlist_hash })
+        body = Oj.dump('playlists' => playlist_hash)
         path = "/me/library/playlists/#{playlist_id}"
         options = {
           headers: {
@@ -123,6 +125,18 @@ module Napster
         }
         response = @client.put(path, body, options)
         Playlist.new(data: response['playlists'].first, client: @client)
+      end
+
+      def delete(playlist_id)
+        path = "/me/library/playlists/#{playlist_id}"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.delete(path, options)
       end
     end
   end
