@@ -155,4 +155,15 @@ describe Napster::Me do
       expect(selected).to be_empty
     end
   end
+
+  describe '.playlists' do
+    it '.all' do
+      params = { limit: 10 }
+      playlists = client.me.playlists.all(params)
+      expect(playlists.class).to eql(Array)
+      unless playlists.empty?
+        expect(playlists.first.class).to eql(Napster::Models::Playlist)
+      end
+    end
+  end
 end

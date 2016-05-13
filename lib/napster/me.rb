@@ -1,7 +1,7 @@
 module Napster
   # Authenticated endpoints under /me namespace
   class Me
-    MODELS_LIST = %w(favorite).freeze
+    MODELS_LIST = %w(favorite playlist).freeze
     attr_accessor :client
 
     def initialize(client)
@@ -28,6 +28,10 @@ module Napster
       Napster::Models::Library.new(client: @client)
     end
 
+    def profile
+      Napster::Models::Profile.new(client: @client)
+    end
+
     private
 
     def validate_access_token(client)
@@ -35,10 +39,6 @@ module Napster
     end
 
     def set_models
-      define_singleton_method('profile') do
-        Object.const_get('Napster::Models::Profile').new(client: @client)
-      end
-
       MODELS_LIST.each do |model|
         define_singleton_method("#{model}s") do
           Object.const_get(model_class_name(model)).new(client: @client)

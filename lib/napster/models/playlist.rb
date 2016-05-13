@@ -65,6 +65,21 @@ module Napster
         response = @client.get("/playlists/#{@id}/tags")
         Tag.collection(data: response['tags'])
       end
+
+      # /me
+
+      def all(params)
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/library/playlists', get_options)
+        Playlist.collection(data: response['playlists'])
+      end
     end
   end
 end
