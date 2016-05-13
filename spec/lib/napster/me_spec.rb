@@ -140,7 +140,7 @@ describe Napster::Me do
     end
 
     it '.library.add_track' do
-      client.me.library.add_track(track_id)
+      client.me.library.add_track([track_id])
       params = { limit: 200 }
       tracks = client.me.library.tracks(params)
       selected = tracks.find { |track| track.id == track_id }

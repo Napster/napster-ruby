@@ -90,16 +90,16 @@ module Napster
         Track.collection(data: response['tracks'], client: @client)
       end
 
-      def add_track(track_id)
-        body = "{\"id\":\"#{track_id}\"}"
+      def add_track(tracks)
         options = {
+          params: { id: tracks },
           headers: {
             Authorization: 'Bearer ' + @client.access_token,
             'Content-Type' => 'application/json',
             'Accept-Version' => '2.0.0'
           }
         }
-        @client.post('/me/library/tracks', body, options)
+        @client.post('/me/library/tracks', '{}', options)
       end
 
       def remove_track(track_id)
