@@ -91,7 +91,10 @@ module Napster
       end
 
       def add_track(tracks)
-        # TODO: tracks to 'track_id,track_id'
+        e = 'tracks argument should be an array.'
+        raise ArgumentError, e unless tracks.class == Array
+
+        tracks = tracks.join(',')
         options = {
           params: { id: tracks },
           headers: {
