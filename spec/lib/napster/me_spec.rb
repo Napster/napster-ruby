@@ -138,5 +138,13 @@ describe Napster::Me do
         expect(tracks.first.class).to eql(Napster::Models::Track)
       end
     end
+
+    it '.library.add_track' do
+      response = client.me.library.add_track(track_id)
+      params = { limit: 200 }
+      tracks = client.me.library.tracks(params)
+      selected = tracks.select { |track| track.id == track_id }.first
+      expect(selected.class).to eql(Napster::Models::Track) unless selected
+    end
   end
 end

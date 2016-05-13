@@ -89,6 +89,19 @@ module Napster
         response = @client.get('/me/library/tracks', get_options)
         Track.collection(data: response['tracks'], client: @client)
       end
+
+      def add_track(track_id)
+        path = '/me/library/tracks'
+        body = "{\"id\":\"#{track_id}\"}"
+        get_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.post(path, body, get_options)
+      end
     end
   end
 end
