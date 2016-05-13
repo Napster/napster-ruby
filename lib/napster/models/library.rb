@@ -91,6 +91,7 @@ module Napster
       end
 
       def add_track(tracks)
+        # TODO: tracks to 'track_id,track_id'
         options = {
           params: { id: tracks },
           headers: {

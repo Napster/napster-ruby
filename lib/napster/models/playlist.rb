@@ -49,6 +49,9 @@ module Napster
       def find(id)
         e = 'Invalid playlist id'
         raise ArgumentError, e unless Napster::Moniker.check(id, :playlist)
+
+        return authenticated_find(id) if @client.access_token
+
         response = @client.get("/playlists/#{id}")
         Playlist.new(data: response['playlists'].first, client: @client)
       end
@@ -79,6 +82,33 @@ module Napster
         }
         response = @client.get('/me/library/playlists', get_options)
         Playlist.collection(data: response['playlists'])
+      end
+
+      def authenticated_find(playlist_id)
+        path = "/me/library/playlists/#{playlist_id}"
+        get_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, get_options)
+        Playlist.new(data: response['playlists'].first, client: @client)
+      end
+
+      def create(playlist_hash)
+        body = Oj.dump({ 'playlists' => playlist_hash })
+        path = '/me/library/playlists'
+        get_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.post(path, body, get_options)
+        Playlist.new(data: response['playlists'].first, client: @client)
       end
     end
   end
