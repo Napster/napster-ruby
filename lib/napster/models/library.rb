@@ -91,16 +91,27 @@ module Napster
       end
 
       def add_track(track_id)
-        path = '/me/library/tracks'
         body = "{\"id\":\"#{track_id}\"}"
-        get_options = {
+        options = {
           headers: {
             Authorization: 'Bearer ' + @client.access_token,
             'Content-Type' => 'application/json',
             'Accept-Version' => '2.0.0'
           }
         }
-        response = @client.post(path, body, get_options)
+        @client.post('/me/library/tracks', body, options)
+      end
+
+      def remove_track(track_id)
+        path = "/me/library/tracks/#{track_id}"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.delete(path, options)
       end
     end
   end

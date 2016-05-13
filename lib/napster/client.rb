@@ -104,7 +104,7 @@ module Napster
     # @return [Hash] parsed response from Napster API
     def delete(path, options = {})
       validate_request(path, options)
-      raw_response = @request.faraday.put do |req|
+      raw_response = @request.faraday.delete do |req|
         req.url path, options[:params]
         req.headers['apikey'] = @api_key
         if options[:headers]

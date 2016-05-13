@@ -140,11 +140,19 @@ describe Napster::Me do
     end
 
     it '.library.add_track' do
-      response = client.me.library.add_track(track_id)
+      client.me.library.add_track(track_id)
       params = { limit: 200 }
       tracks = client.me.library.tracks(params)
-      selected = tracks.select { |track| track.id == track_id }.first
+      selected = tracks.find { |track| track.id == track_id }
       expect(selected.class).to eql(Napster::Models::Track) unless selected
+    end
+
+    it '.library.remove_track' do
+      client.me.library.remove_track(track_id)
+      params = { limit: 200 }
+      tracks = client.me.library.tracks(params)
+      selected = tracks.select { |track| track.id == track_id }
+      expect(selected).to be_empty
     end
   end
 end
