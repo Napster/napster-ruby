@@ -6,7 +6,6 @@ module Napster
 
       def initialize(arg)
         @client = arg[:client] if arg[:client]
-        return unless arg[:data]
       end
 
       def artists(params)
