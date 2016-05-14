@@ -117,6 +117,19 @@ module Napster
         }
         @client.delete(path, options)
       end
+
+      def last_updated_date
+        path = '/me/library/updated'
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, options)
+        LibraryDateTime.new(data: response['lastUpdateDate'], client: @client)
+      end
     end
   end
 end

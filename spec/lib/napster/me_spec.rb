@@ -154,6 +154,11 @@ describe Napster::Me do
       selected = tracks.select { |track| track.id == track_id }
       expect(selected).to be_empty
     end
+
+    it '.library.last_updated_date' do
+      library_date_time = client.me.library.last_updated_date
+      expect(library_date_time.class).to eql(Napster::Models::LibraryDateTime)
+    end
   end
 
   describe '.playlists' do
