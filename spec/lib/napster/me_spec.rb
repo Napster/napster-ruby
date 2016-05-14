@@ -207,5 +207,24 @@ describe Napster::Me do
       unfound_playlist = client.me.playlists.find(playlist.id)
       expect(unfound_playlist).to eql(nil)
     end
+
+    it '.set_private' do
+      public_playlist = client.playlists.playlists_of_the_day.first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+      privacy_value = rand(0..1) == 0 ? true : false
+
+      client.me.playlists.set_private(playlist.id, privacy_value)
+      updated_playlist = client.me.playlists.find(playlist.id)
+
+      if privacy_value
+        expect(updated_playlist.privacy).to eql('private')
+      else
+        expect(updated_playlist.privacy).to eql('public')
+      end
+    end
   end
 end

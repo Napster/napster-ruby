@@ -138,6 +138,23 @@ module Napster
         }
         @client.delete(path, options)
       end
+
+      def set_private(playlist_id, boolean)
+        e = 'The argument should be a boolean value.'
+        raise ArgumentError, e unless [true, false].include?(boolean)
+
+        privacy_value = boolean ? 'private' : 'public'
+        body = Oj.dump('privacy' => privacy_value)
+        path = "/me/library/playlists/#{playlist_id}/privacy"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.put(path, body, options)
+      end
     end
   end
 end
