@@ -255,5 +255,18 @@ describe Napster::Me do
 
       expect(found.class).to eql(Napster::Models::Track) unless found
     end
+
+    it 'me.tags' do
+      public_playlist = client.playlists.playlists_of_the_day.first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+      tags = playlist.tags
+
+      expect(tags.class).to eql(Array)
+      expect(tags.first.class).to eql(Napster::Models::Tag) unless tags.empty?
+    end
   end
 end

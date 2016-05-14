@@ -67,6 +67,8 @@ module Napster
       end
 
       def tags
+        return authenticated_tags if @client.access_token
+
         response = @client.get("/playlists/#{@id}/tags")
         Tag.collection(data: response['tags'])
       end
@@ -186,6 +188,21 @@ module Napster
           }
         }
         @client.post(path, body, options)
+      end
+
+      def authenticated_tags
+        return [] if @id
+        path = "/me/library/playlists/#{playlist_id}/tags"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, options)
+        return [] if response['tags']
+        Tag.collection(data: response['tags'], client: @client)
       end
     end
   end
