@@ -32,6 +32,10 @@ module Napster
       Napster::Models::Profile.new(client: @client)
     end
 
+    def following
+      Napster::Models::Following.new(client: @client)
+    end
+
     private
 
     def validate_access_token(client)

@@ -274,4 +274,14 @@ describe Napster::Me do
       expect(tags.first.class).to eql(Napster::Models::Tag) unless tags.empty?
     end
   end
+
+  describe 'following' do
+    it 'members' do
+      members = client.me.following.members(limit: 5)
+      expect(members.class).to eql(Array)
+      unless members.empty?
+        expect(members.first.class).to eql(Napster::Models::Member)
+      end
+    end
+  end
 end
