@@ -59,6 +59,8 @@ module Napster
       # Instance methods
 
       def tracks(params)
+        return authenticated_tracks(params) if @client.access_token
+
         hash = { params: params }
         response = @client.get("/playlists/#{@id}/tracks", hash)
         Track.collection(data: response['tracks'])
@@ -97,6 +99,22 @@ module Napster
         return nil if response['playlists'].empty?
 
         Playlist.new(data: response['playlists'].first, client: @client)
+      end
+
+      def authenticated_tracks(params)
+        path = "/me/library/playlists/#{@id}/tracks"
+        options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get(path, options)
+        return [] if response['tracks'].empty?
+
+        Track.collection(data: response['tracks'], client: @client)
       end
 
       def create(playlist_hash)
@@ -154,6 +172,20 @@ module Napster
           }
         }
         @client.put(path, body, options)
+      end
+
+      def add_tracks(playlist_id, tracks)
+        tracks = tracks.map { |track| { 'id' => track } }
+        body = Oj.dump('tracks' => tracks)
+        path = "/me/library/playlists/#{playlist_id}/tracks"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.post(path, body, options)
       end
     end
   end

@@ -226,5 +226,34 @@ describe Napster::Me do
         expect(updated_playlist.privacy).to eql('public')
       end
     end
+
+    it 'playlist.tracks' do
+      public_playlist = client.playlists.playlists_of_the_day.first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+      tracks = playlist.tracks(limit: 10)
+
+      expect(tracks.class).to eql(Array)
+      expect(tracks.first.class).to eql(Napster::Models::Track)
+    end
+
+    it '.add_tracks' do
+      public_playlist = client.playlists.playlists_of_the_day.first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+
+      client.me.playlists.add_tracks(playlist.id, [track_id])
+      client.me.playlists.find(playlist.id)
+      tracks = playlist.tracks(limit: 100)
+      found = tracks.find { |track| track.id == track_id }
+
+      expect(found.class).to eql(Napster::Models::Track) unless found
+    end
   end
 end
