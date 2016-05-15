@@ -13,6 +13,7 @@ client.authenticate(:password_grant)
 album_id = fixture['album']['id']
 artist_id = fixture['artist']['id']
 track_id = fixture['track']['id']
+guids = %w(2423C6DDE6B5F028E050960A3903252B D877082A5CBC5AC7E040960A390313EF)
 
 describe Napster::Me do
   it 'has a class' do
@@ -285,19 +286,23 @@ describe Napster::Me do
     end
 
     it 'by?' do
-      array = ['2423C6DDE6B5F028E050960A3903252B',
-               'D877082A5CBC5AC7E040960A390313EF']
-      member_guids = client.me.following.by?(array)
+      member_guids = client.me.following.by?(guids)
       expect(member_guids.class).to eql(Array)
     end
 
     it 'follow' do
-      array = ['2423C6DDE6B5F028E050960A3903252B',
-               'D877082A5CBC5AC7E040960A390313EF']
-      client.me.following.follow(array)
-      members = client.me.following.by?(array)
+      client.me.following.follow(guids)
+      members = client.me.following.by?(guids)
       members.each do |member|
-        expect(array).to include(member)
+        expect(guids).to include(member)
+      end
+    end
+
+    it 'unfollow' do
+      client.me.following.unfollow(guids)
+      members = client.me.following.by?(guids)
+      members.each do |member|
+        expect(guids).not_to include(member)
       end
     end
   end

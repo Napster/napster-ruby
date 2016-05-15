@@ -34,7 +34,7 @@ module Napster
       end
 
       def follow(array)
-        body = Oj.dump({ 'members' => array })
+        body = Oj.dump('members' => array)
         options = {
           headers: {
             Authorization: 'Bearer ' + @client.access_token,
@@ -43,6 +43,17 @@ module Napster
           }
         }
         @client.post('/me/following', body, options)
+      end
+
+      def unfollow(array)
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.delete("/me/following/#{array.join(',')}", options)
       end
     end
   end
