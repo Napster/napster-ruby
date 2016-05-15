@@ -306,4 +306,19 @@ describe Napster::Me do
       end
     end
   end
+
+  describe 'followers' do
+    it 'members' do
+      members = client.me.followers.members(limit: 5)
+      expect(members.class).to eql(Array)
+      unless members.empty?
+        expect(members.first.class).to eql(Napster::Models::Member)
+      end
+    end
+
+    it 'by?' do
+      member_guids = client.me.followers.by?(guids)
+      expect(member_guids.class).to eql(Array)
+    end
+  end
 end
