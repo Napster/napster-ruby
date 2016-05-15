@@ -283,5 +283,12 @@ describe Napster::Me do
         expect(members.first.class).to eql(Napster::Models::Member)
       end
     end
+
+    it 'by?' do
+      array = ['2423C6DDE6B5F028E050960A3903252B',
+               'D877082A5CBC5AC7E040960A390313EF']
+      member_guids = client.me.following.by?(array)
+      expect(member_guids.class).to eql(Array)
+    end
   end
 end

@@ -20,6 +20,18 @@ module Napster
         response = @client.get('/me/following', options)
         Member.collection(data: response['members'], client: @client)
       end
+
+      def by?(guids)
+        path = "/me/following/#{guids.join(',')}"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.get(path, options)['members']
+      end
     end
   end
 end
