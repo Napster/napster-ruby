@@ -32,6 +32,18 @@ module Napster
         }
         @client.get(path, options)['members']
       end
+
+      def follow(array)
+        body = Oj.dump({ 'members' => array })
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.post('/me/following', body, options)
+      end
     end
   end
 end
