@@ -274,6 +274,21 @@ describe Napster::Me do
       expect(tags.class).to eql(Array)
       expect(tags.first.class).to eql(Napster::Models::Tag) unless tags.empty?
     end
+
+    it 'playlists.recommended_tracks' do
+      public_playlist = client.playlists.playlists_of_the_day.first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+      tracks = playlist.recommended_tracks(playlist.id)
+
+      expect(tracks.class).to eql(Array)
+      unless tracks.empty?
+        expect(tracks.first.class).to eql(Napster::Models::Track)
+      end
+    end
   end
 
   describe 'following' do

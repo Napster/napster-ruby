@@ -73,6 +73,19 @@ module Napster
         Tag.collection(data: response['tags'])
       end
 
+      def recommended_tracks(playlist_id)
+        options = {
+          params: { playlistId: playlist_id },
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/recommendations/tracks', options)
+        Track.collection(data: response['tracks'], client: @client)
+      end
+
       # /me
 
       def all(params)
