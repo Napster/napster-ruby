@@ -2,6 +2,12 @@ module Napster
   module Models
     # Tag model
     class Tag
+      SUPPORTED_CONTENT_TYPES = [:album,
+                                 :artist,
+                                 :genre,
+                                 :playlist,
+                                 :radio,
+                                 :track].freeze
       ATTRIBUTES = [:type,
                     :id,
                     :name,
@@ -43,6 +49,23 @@ module Napster
         raise ArgumentError, e unless Napster::Moniker.check(id, :tag)
         response = @client.get("/tags/#{id}")
         Tag.new(data: response['tags'].first, client: @client)
+      end
+
+      # /me
+
+      def contents(named_tag, type, params)
+        params[:tag] = named_tag if named_tag
+        params[:type] = type.to_s if type
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/tags/search', get_options)
+        Content.collection(data: response['data'], client: @client)
       end
     end
   end

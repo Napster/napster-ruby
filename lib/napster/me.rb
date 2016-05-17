@@ -1,7 +1,7 @@
 module Napster
   # Authenticated endpoints under /me namespace
   class Me
-    MODELS_LIST = %w(favorite playlist follower).freeze
+    MODELS_LIST = %w(favorite playlist follower tag).freeze
     attr_accessor :client
 
     def initialize(client)

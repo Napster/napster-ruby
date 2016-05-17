@@ -336,4 +336,14 @@ describe Napster::Me do
       expect(member_guids.class).to eql(Array)
     end
   end
+
+  describe 'tags' do
+    it 'contents' do
+      contents = client.me.tags.contents('favorite', '', {})
+      expect(contents.class).to eql(Array)
+      contents.each do |c|
+        expect(c.class.to_s.include?('Napster::Models')).to eql(true)
+      end
+    end
+  end
 end
