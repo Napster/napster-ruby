@@ -36,14 +36,14 @@ module Napster
 
       # Top level methods
 
-      def playlists_of_the_day
-        response = @client.get('/playlists')
-        Playlist.collection(data: response['playlists'])
+      def playlists_of_the_day(params)
+        response = @client.get('/playlists', params: params)
+        Playlist.collection(data: response['playlists'], client: @client)
       end
 
-      def featured
-        response = @client.get('/playlists/featured')
-        Playlist.collection(data: response['playlists'])
+      def featured(params)
+        response = @client.get('/playlists/featured', params: params)
+        Playlist.collection(data: response['playlists'], client: @client)
       end
 
       def find(id)
@@ -63,27 +63,14 @@ module Napster
 
         hash = { params: params }
         response = @client.get("/playlists/#{@id}/tracks", hash)
-        Track.collection(data: response['tracks'])
+        Track.collection(data: response['tracks'], client: @client)
       end
 
       def tags
         return authenticated_tags if @client.access_token
 
         response = @client.get("/playlists/#{@id}/tags")
-        Tag.collection(data: response['tags'])
-      end
-
-      def recommended_tracks(playlist_id)
-        options = {
-          params: { playlistId: playlist_id },
-          headers: {
-            Authorization: 'Bearer ' + @client.access_token,
-            'Content-Type' => 'application/json',
-            'Accept-Version' => '2.0.0'
-          }
-        }
-        response = @client.get('/me/recommendations/tracks', options)
-        Track.collection(data: response['tracks'], client: @client)
+        Tag.collection(data: response['tags'], client: @client)
       end
 
       # /me
@@ -216,6 +203,19 @@ module Napster
         response = @client.get(path, options)
         return [] if response['tags']
         Tag.collection(data: response['tags'], client: @client)
+      end
+
+      def recommended_tracks(playlist_id)
+        options = {
+          params: { playlistId: playlist_id },
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/recommendations/tracks', options)
+        Track.collection(data: response['tracks'], client: @client)
       end
     end
   end

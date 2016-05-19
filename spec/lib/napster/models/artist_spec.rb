@@ -30,7 +30,8 @@ describe Napster::Models::Artist do
   end
 
   it '#top' do
-    artists = client.artists.top
+    params = { limit: 5, offset: 5 }
+    artists = client.artists.top(params)
     expect(artists.class).to eql(Array)
     expect(artists.first.class).to eql(Napster::Models::Artist)
   end
@@ -54,25 +55,29 @@ describe Napster::Models::Artist do
   end
 
   it 'artist.albums' do
-    albums = client.artists.find(artist_id).albums
+    params = { limit: 5, offset: 5 }
+    albums = client.artists.find(artist_id).albums(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it 'artist.new_albums' do
-    albums = client.artists.find(artist_id).new_albums
+    params = { limit: 5, offset: 5 }
+    albums = client.artists.find(artist_id).new_albums(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it 'artist.tracks' do
-    tracks = client.artists.find(artist_id).tracks
+    params = { limit: 5, offset: 5 }
+    tracks = client.artists.find(artist_id).tracks(params)
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
   end
 
   it 'artist.top_tracks' do
-    albums = client.artists.find(artist_id).tracks
+    params = { limit: 5, offset: 5 }
+    albums = client.artists.find(artist_id).top_tracks(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Track)
   end

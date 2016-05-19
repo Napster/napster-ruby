@@ -173,7 +173,7 @@ describe Napster::Me do
     end
 
     it '.authenticated_find and .create' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -186,7 +186,7 @@ describe Napster::Me do
     end
 
     it '.update' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -202,7 +202,7 @@ describe Napster::Me do
     end
 
     it '.delete' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -215,7 +215,7 @@ describe Napster::Me do
     end
 
     it '.set_private' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -234,7 +234,7 @@ describe Napster::Me do
     end
 
     it 'playlist.tracks' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -247,7 +247,7 @@ describe Napster::Me do
     end
 
     it '.add_tracks' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -263,7 +263,7 @@ describe Napster::Me do
     end
 
     it 'me.tags' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence
@@ -276,7 +276,7 @@ describe Napster::Me do
     end
 
     it 'playlists.recommended_tracks' do
-      public_playlist = client.playlists.playlists_of_the_day.first
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
       playlist_hash = {
         'id' => public_playlist.id,
         'name' => Faker::Lorem.sentence

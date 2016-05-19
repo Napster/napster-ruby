@@ -35,9 +35,9 @@ module Napster
 
       # Top level methods
 
-      def top
-        response = @client.get('/artists/top')
-        Artist.collection(data: response['artists'])
+      def top(params)
+        response = @client.get('/artists/top', params: params)
+        Artist.collection(data: response['artists'], client: @client)
       end
 
       def find(arg)
@@ -67,30 +67,24 @@ module Napster
 
       # Instance methods
 
-      def albums
-        response = @client.get("/artists/#{@id}/albums")
-        Album.collection(data: response['albums'])
+      def albums(params)
+        response = @client.get("/artists/#{@id}/albums", params: params)
+        Album.collection(data: response['albums'], client: @client)
       end
 
-      def new_albums
-        response = @client.get("/artists/#{@id}/albums/new")
-        Album.collection(data: response['albums'])
+      def new_albums(params)
+        response = @client.get("/artists/#{@id}/albums/new", params: params)
+        Album.collection(data: response['albums'], client: @client)
       end
 
-      # TODO: add limits
-      def tracks
-        options = {
-          params: {
-            limit: 10
-          }
-        }
-        response = @client.get("/artists/#{@id}/tracks", options)
-        Track.collection(data: response['tracks'])
+      def tracks(params)
+        response = @client.get("/artists/#{@id}/tracks", params: params)
+        Track.collection(data: response['tracks'], client: @client)
       end
 
-      def top_tracks
-        response = @client.get("/artists/#{@id}/tracks/top")
-        Track.collection(data: response['tracks'])
+      def top_tracks(params)
+        response = @client.get("/artists/#{@id}/tracks/top", params: params)
+        Track.collection(data: response['tracks'], client: @client)
       end
     end
   end
