@@ -54,11 +54,74 @@ module Napster
         request_member_favorites(id)
       end
 
+      # /me
+
+      def get(params)
+        get_options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/favorites', get_options)
+        Favorite.collection(data: response['favorites'], client: @client)
+      end
+
+      def status(ids)
+        get_options = {
+          params: {
+            ids: ids
+          },
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        response = @client.get('/me/favorites/status', get_options)
+        FavoriteStatus.collection(data: response['status'], client: @client)
+      end
+
+      def add(ids)
+        post_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        body = prepare_add_favorites_body(ids)
+        @client.post('/me/favorites', Oj.dump(body), post_options)
+        status(ids)
+      end
+
+      def remove(id)
+        delete_options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        @client.delete("/me/favorites/#{id}", delete_options)
+        status([id])
+      end
+
       private
 
       def request_member_favorites(id)
         response = @client.get("/favorites/#{id}/members")
         Member.collection(data: response['members'], client: @client)
+      end
+
+      def prepare_add_favorites_body(ids)
+        favorites_body = []
+        ids.each do |id|
+          favorites_body << { id: id }
+        end
+        { favorites: favorites_body }
       end
     end
   end

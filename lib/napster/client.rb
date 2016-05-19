@@ -104,7 +104,7 @@ module Napster
     # @return [Hash] parsed response from Napster API
     def delete(path, options = {})
       validate_request(path, options)
-      raw_response = @request.faraday.put do |req|
+      raw_response = @request.faraday.delete do |req|
         req.url path, options[:params]
         req.headers['apikey'] = @api_key
         if options[:headers]
@@ -147,6 +147,11 @@ module Napster
       query_params[:state] = @state if @state
       query_params_string = URI.encode_www_form(query_params)
       Napster::Request::HOST_URL + '/oauth/authorize?' + query_params_string
+    end
+
+    # Include Me module for calling authenticated methods
+    def me
+      Napster::Me.new(self)
     end
 
     private
@@ -248,22 +253,6 @@ module Napster
 
     def validate_authentication_url
       raise 'The client is missing redirect_uri' unless @redirect_uri
-    end
-
-    # Helper method for Client.new
-    #   Set resources methods on the client
-    # @return [Client]
-    def set_resources
-      RESOURCES_LIST.each do |resource|
-        define_singleton_method(resource) do
-          Object.const_get(resource_class_name(resource)).new(self)
-        end
-      end
-      self
-    end
-
-    def resource_class_name(resource)
-      # "Napster::Resources::Metadata::#{resource.capitalize}Resource"
     end
 
     def set_models

@@ -302,4 +302,16 @@ describe Napster::Client do
       expect(client.expires_in).to_not be_nil
     end
   end
+
+  it 'me' do
+    options = {
+      api_key: config_variables['API_KEY'],
+      api_secret: config_variables['API_SECRET'],
+      username: config_variables['USERNAME'],
+      password: config_variables['PASSWORD']
+    }
+    client = Napster::Client.new(options)
+
+    expect(client.me.class).to eql(Napster::Me)
+  end
 end
