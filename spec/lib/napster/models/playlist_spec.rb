@@ -29,13 +29,15 @@ describe Napster::Models::Playlist do
   end
 
   it '.playlists_of_the_day' do
-    playlists = client.playlists.playlists_of_the_day
+    params = { limit: 5, offset: 5 }
+    playlists = client.playlists.playlists_of_the_day(params)
     expect(playlists.class).to eql(Array)
     expect(playlists.first.class).to eql(Napster::Models::Playlist)
   end
 
   it '.featured' do
-    playlists = client.playlists.featured
+    params = { limit: 5, offset: 5 }
+    playlists = client.playlists.featured(params)
     expect(playlists.class).to eql(Array)
     expect(playlists.first.class).to eql(Napster::Models::Playlist)
   end
@@ -54,13 +56,15 @@ describe Napster::Models::Playlist do
   end
 
   it '#tracks' do
-    tracks = client.playlists.find(playlist_id).tracks(limit: 5)
+    params = { limit: 5, offset: 5 }
+    tracks = client.playlists.find(playlist_id).tracks(params)
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
   end
 
   it '#tags' do
-    tags = client.playlists.find(playlist_id).tags
+    params = { limit: 5, offset: 5 }
+    tags = client.playlists.find(playlist_id).tags(params)
     expect(tags.class).to eql(Array)
     expect(tags.first.class).to eql(Napster::Models::Tag)
   end
