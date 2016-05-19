@@ -51,6 +51,8 @@ client = Napster::Client.new(options)
 
 #### Password grant
 
+##### Method 1
+
 ```ruby
 client_hash = {
   api_key: 'API_KEY',
@@ -67,6 +69,8 @@ client.authentication.access_token # => returns access_token
 client.authentication.refresh_token
 client.authentication.expires_in
 ```
+
+##### Method 2
 
 ```ruby
 client_hash = {
