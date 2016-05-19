@@ -126,12 +126,12 @@ Then you can call metadata endpoints following this pattern.
 ```ruby
 # takes a form of client.[resources].[method]
 # examples
-client.artists.top
+client.artists.top(limit: 5)
 client.artists.find(artist_id) # => returns an artist
 client.artists.find(artist_name) # => returns a list of search results for the artist
-client.artists.find(artist_id).albums
-client.artists.find(artist_id).topAlbums
-client.artists.find(artist_id).topTracks({ params: { limit: 5 } })
+client.artists.find(artist_id).albums(offset: 5)
+client.artists.find(artist_id).topAlbums(limit: 5)
+client.artists.find(artist_id).topTracks(limit: 5)
 ```
 
 #### Authenticated Member API
