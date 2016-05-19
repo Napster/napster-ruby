@@ -63,8 +63,7 @@ describe Napster::Models::Playlist do
   end
 
   it '#tags' do
-    params = { limit: 5, offset: 5 }
-    tags = client.playlists.find(playlist_id).tags(params)
+    tags = client.playlists.find(playlist_id).tags
     expect(tags.class).to eql(Array)
     expect(tags.first.class).to eql(Napster::Models::Tag)
   end

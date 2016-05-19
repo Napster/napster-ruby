@@ -37,12 +37,12 @@ module Napster
       # Top level methods
 
       def playlists_of_the_day(params)
-        response = @client.get('/playlists')
+        response = @client.get('/playlists', params: params)
         Playlist.collection(data: response['playlists'], client: @client)
       end
 
       def featured(params)
-        response = @client.get('/playlists/featured')
+        response = @client.get('/playlists/featured', params: params)
         Playlist.collection(data: response['playlists'], client: @client)
       end
 
@@ -66,7 +66,7 @@ module Napster
         Track.collection(data: response['tracks'], client: @client)
       end
 
-      def tags(params)
+      def tags
         return authenticated_tags if @client.access_token
 
         response = @client.get("/playlists/#{@id}/tags")
