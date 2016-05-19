@@ -1,7 +1,7 @@
 require 'faraday'
 require 'oj'
 
-require 'string'
+require 'string_helper'
 require 'napster/client'
 require 'napster/me'
 require 'napster/moniker'
@@ -24,5 +24,3 @@ require 'napster/models/playlist'
 require 'napster/models/profile'
 require 'napster/models/tag'
 require 'napster/models/track'
-
-# Authenticated resources

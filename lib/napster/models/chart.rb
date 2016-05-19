@@ -1,3 +1,5 @@
+using StringHelper
+
 module Napster
   module Models
     # Chart model
