@@ -154,7 +154,7 @@ client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123'
 #### Query Parameters
 
 ```ruby
-client.artists.top({ params: { limit: 5, offset: 5 } })
+client.artists.top(limit: 5, offset: 5)
 ```
 
 #### Request body for PUT / POST
