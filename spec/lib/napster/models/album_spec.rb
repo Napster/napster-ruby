@@ -29,19 +29,22 @@ describe Napster::Models::Album do
   end
 
   it '#new_releases' do
-    albums = client.albums.new_releases
+    params = { limit: 5, offset: 5 }
+    albums = client.albums.new_releases(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it '#staff_picks' do
-    albums = client.albums.staff_picks
+    params = { limit: 5, offset: 5 }
+    albums = client.albums.staff_picks(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
 
   it '#top' do
-    albums = client.albums.top
+    params = { limit: 5, offset: 5 }
+    albums = client.albums.top(params)
     expect(albums.class).to eql(Array)
     expect(albums.first.class).to eql(Napster::Models::Album)
   end
@@ -60,7 +63,8 @@ describe Napster::Models::Album do
   end
 
   it 'album.tracks' do
-    tracks = client.albums.find(album_id).tracks
+    params = { limit: 5, offset: 5 }
+    tracks = client.albums.find(album_id).tracks(params)
     expect(tracks.class).to eql(Array)
     expect(tracks.first.class).to eql(Napster::Models::Track)
   end

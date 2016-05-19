@@ -44,19 +44,19 @@ module Napster
 
       # Top level methods
 
-      def new_releases
-        response = @client.get('/albums/new')
-        Album.collection(data: response['albums'])
+      def new_releases(params)
+        response = @client.get('/albums/new', params: params)
+        Album.collection(data: response['albums'], client: @client)
       end
 
-      def staff_picks
-        response = @client.get('/albums/picks')
-        Album.collection(data: response['albums'])
+      def staff_picks(params)
+        response = @client.get('/albums/picks', params: params)
+        Album.collection(data: response['albums'], client: @client)
       end
 
-      def top
-        response = @client.get('/albums/top')
-        Album.collection(data: response['albums'])
+      def top(params)
+        response = @client.get('/albums/top', params: params)
+        Album.collection(data: response['albums'], client: @client)
       end
 
       def find(arg)
@@ -86,9 +86,9 @@ module Napster
 
       # Instance methods
 
-      def tracks
-        response = @client.get("/albums/#{@id}/tracks")
-        Track.collection(data: response['tracks'])
+      def tracks(params)
+        response = @client.get("/albums/#{@id}/tracks", params: params)
+        Track.collection(data: response['tracks'], client: @client)
       end
     end
   end
