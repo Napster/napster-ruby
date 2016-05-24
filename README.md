@@ -193,10 +193,56 @@ Then you can call metadata endpoints following this pattern.
 
 ```ruby
 # takes a form of client.me.[resources].[method]
-# examples
+
+# favorites
+client.me.favorites.get(limit: 5)
+client.me.favorites.status(['Art.954', 'Alb.5153820', 'Tra.5156528'])
+client.me.favorites.add(['Art.954', 'Alb.5153820', 'Tra.5156528'])
+client.me.favorites.remove('Art.954')
+
+# followers
+client.me.followers.members(limit: 5)
+client.me.followers.by?(guids)
+
+# following
+client.me.following.members(limit: 5)
+client.me.following.by?(guids)
+client.me.following.follow(guids)
+client.me.following.unfollow(guids)
+
+# library
+client.me.library.artists(limit: 10)
+client.me.library.artist_albums('Art.954', limit: 10)
+client.me.library.artist_tracks('Art.954', limit: 10)
+client.me.library.albums(limit: 10)
+client.me.library.album_tracks('Alb.5153820', limit: 10)
+client.me.library.tracks(limit: 10)
+client.me.library.add_track(['Tra.5156528'])
+client.me.library.remove_track('Tra.5156528')
+client.me.library.last_updated_date
+
+# listening history
+client.me.listening_history(limit: 10)
+
+# playlists
+client.me.playlists.all(limit: 10)
+client.me.playlists.create({ 'name' => 'hiphop playlist' })
+client.me.playlists.find('mp.123123')
+client.me.playlists.update('mp.123123', { 'name' => 'hiphop playlist 2' })
+client.me.playlists.delete('mp.123123')
+client.me.playlists.set_private('mp.123123', 'public')
+client.me.playlists.set_private('mp.123123', 'private')
+client.me.playlists.add_tracks('mp.123123', ['Tra.5156528'])
+client.me.playlists.recommended_tracks('mp.123123')
+client.me.playlists.find('mp.123123').tracks(limit: 10)
+client.me.playlists.find('mp.123123').tags
+
+# profile
 client.me.profile.get
-client.me.profile.update({ body: { bio: 'I like turtles' } })
-client.me.playlists.create({ body: { name: 'My New Playlist', tracks: ['tra.123', 'tra.234'] } })
+client.me.profile.update({ 'me' => { 'bio' => Faker::Lorem.word } })
+
+# tags
+client.me.tags.contents('favorite', '', {})
 ```
 
 #### Query Parameters
