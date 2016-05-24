@@ -123,7 +123,7 @@ module Napster
         ids.each do |id|
           favorites_body << { id: id }
         end
-        { favorites: favorites_body }
+        { 'favorites' => favorites_body }
       end
     end
   end

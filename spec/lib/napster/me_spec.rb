@@ -14,6 +14,7 @@ album_id = fixture['album']['id']
 artist_id = fixture['artist']['id']
 track_id = fixture['track']['id']
 guids = %w(2423C6DDE6B5F028E050960A3903252B D877082A5CBC5AC7E040960A390313EF)
+to_follow = %w(139FBE71933C61B1E050960A38031E3F 0ED887A544D14846E050960A38036413)
 playlist_ids = []
 
 describe Napster::Me do
@@ -319,7 +320,7 @@ describe Napster::Me do
     end
 
     it 'follow' do
-      client.me.following.follow(guids)
+      client.me.following.follow(to_follow)
       members = client.me.following.by?(guids)
       members.each do |member|
         expect(guids).to include(member)
@@ -327,7 +328,7 @@ describe Napster::Me do
     end
 
     it 'unfollow' do
-      client.me.following.unfollow(guids)
+      client.me.following.unfollow(to_follow)
       members = client.me.following.by?(guids)
       members.each do |member|
         expect(guids).not_to include(member)

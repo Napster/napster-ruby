@@ -54,7 +54,7 @@ module Napster
           end
         end
       end
-      Oj.load(raw_response.body)
+      handle_response(raw_response)
     end
 
     # Make a get request to Napster API
@@ -73,7 +73,7 @@ module Napster
           end
         end
       end
-      Oj.load(raw_response.body)
+      handle_response(raw_response)
     end
 
     # Make a put request to Napster API
@@ -94,7 +94,7 @@ module Napster
           end
         end
       end
-      Oj.load(raw_response.body)
+      handle_response(raw_response)
     end
 
     # Make a delete request to Napster API
@@ -113,7 +113,7 @@ module Napster
           end
         end
       end
-      Oj.load(raw_response.body)
+      handle_response(raw_response)
     end
 
     # Smarter method for authentication via password_grant or oauth2
@@ -266,6 +266,12 @@ module Napster
 
     def model_class_name(model)
       "Napster::Models::#{model.capitalize}"
+    end
+
+    def handle_response(response)
+      puts response.body if !response.success?
+      raise ResponseError.new(response) if response && !response.success?
+      Oj.load(response.body)
     end
   end
 end
