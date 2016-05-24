@@ -14,8 +14,13 @@ album_id = fixture['album']['id']
 artist_id = fixture['artist']['id']
 track_id = fixture['track']['id']
 guids = %w(2423C6DDE6B5F028E050960A3903252B D877082A5CBC5AC7E040960A390313EF)
+playlist_ids = []
 
 describe Napster::Me do
+  after(:all) do
+    ClientSpecHelper.delete_playlists(playlist_ids)
+  end
+
   it 'has a class' do
     expect(Napster::Me).not_to be nil
   end
@@ -179,6 +184,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
 
       # uses .authenticated_find
       playlist = client.me.playlists.find(playlist.id)
@@ -192,6 +198,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       new_name = {
         'name' => Faker::Lorem.sentence
       }
@@ -208,6 +215,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       client.me.playlists.delete(playlist.id)
 
       unfound_playlist = client.me.playlists.find(playlist.id)
@@ -221,6 +229,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       privacy_value = rand(0..1) == 0 ? true : false
 
       client.me.playlists.set_private(playlist.id, privacy_value)
@@ -240,6 +249,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       tracks = playlist.tracks(limit: 10)
 
       expect(tracks.class).to eql(Array)
@@ -253,6 +263,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
 
       client.me.playlists.add_tracks(playlist.id, [track_id])
       client.me.playlists.find(playlist.id)
@@ -269,6 +280,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       tags = playlist.tags
 
       expect(tags.class).to eql(Array)
@@ -282,6 +294,7 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
       tracks = playlist.recommended_tracks(playlist.id)
 
       expect(tracks.class).to eql(Array)
