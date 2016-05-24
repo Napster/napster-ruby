@@ -133,18 +133,53 @@ Then you can call metadata endpoints following this pattern.
 # albums
 client.albums.new_releases(limit: 10)
 client.albums.staff_picks(limit: 10)
-client.albums.top(limit:10)
+client.albums.top(limit: 10)
 client.albums.find(artist_id) # => returns an album
 client.albums.find(artist_name) # => returns an album
 client.albums.find(artist_id).tracks(limit: 10) # => returns an album
 client.albums.find(artist_name).tracks(limit: 10) # => returns an album
 
+# artists
 client.artists.top(limit: 5)
 client.artists.find(artist_id) # => returns an artist
 client.artists.find(artist_name) # => returns an artist
 client.artists.find(artist_id).albums(offset: 5)
-client.artists.find(artist_id).topAlbums(limit: 5)
-client.artists.find(artist_id).topTracks(limit: 5)
+client.artists.find(artist_id).new_albums(offset: 5)
+client.artists.find(artist_id).tracks(limit: 5)
+client.artists.find(artist_id).top_tracks(limit: 5)
+
+# favorites
+client.favorites.members_who_favorited_albums('Alb.5153820')
+client.favorites.members_who_favorited_artists('Art.954')
+client.favorites.member_favorites_for('Tra.5156528')
+
+# members
+client.members.playlists_for('D877082A5CBC5AC7E040960A390313EF', limit: 2)
+client.members.favorites_for('D877082A5CBC5AC7E040960A390313EF', limit: 2)
+client.members.favorite_playlists_for('D877082A5CBC5AC7E040960A390313EF', limit: 2)
+client.members.chart_for('D877082A5CBC5AC7E040960A390313EF', limit: 2)
+client.members.find('D877082A5CBC5AC7E040960A390313EF')
+client.members.find('dduda')
+client.members.screenname_available?('dduda')
+client.members.find('dduda').playlists(limit: 5)
+client.members.find('dduda').favorites(limit: 5)
+client.members.find('dduda').favorite_playlists(limit: 5)
+client.members.find('dduda').chart(limit: 5)
+
+# playlists
+client.playlists.playlists_of_the_day(limit: 3)
+client.playlists.featured(limit: 3)
+client.playlists.find('pp.125821370')
+client.playlists.find('pp.125821370').tracks(limit: 10)
+client.playlists.find('pp.125821370').tags
+
+# tags
+client.tags.all
+client.tags.find('tag.156763217')
+
+# tracks
+client.tracks.find('Tra.5156528')
+client.tracks.find_by_name('Marvins Room')
 ```
 
 #### Authenticated Member API
