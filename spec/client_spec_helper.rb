@@ -30,4 +30,13 @@ module ClientSpecHelper
     }
     client.get('/me/library/playlists', get_options)
   end
+
+  def self.delete_playlists(ids)
+    includes = %w(username password)
+    client = ClientSpecHelper.get_client(includes)
+    client.authenticate(:password_grant)
+    ids.each do |playlist_id|
+      client.me.playlists.delete(playlist_id)
+    end
+  end
 end
