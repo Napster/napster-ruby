@@ -269,7 +269,6 @@ module Napster
     end
 
     def handle_response(response)
-      puts response.body if !response.success?
       raise ResponseError.new(response) if response && !response.success?
       Oj.load(response.body)
     end
