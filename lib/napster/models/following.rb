@@ -36,7 +36,7 @@ module Napster
       end
 
       def follow(array)
-        body = Oj.dump({ 'members' => array })
+        body = Oj.dump('members' => array)
         options = {
           headers: {
             Authorization: 'Bearer ' + @client.access_token,

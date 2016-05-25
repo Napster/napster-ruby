@@ -14,7 +14,8 @@ album_id = fixture['album']['id']
 artist_id = fixture['artist']['id']
 track_id = fixture['track']['id']
 guids = %w(2423C6DDE6B5F028E050960A3903252B D877082A5CBC5AC7E040960A390313EF)
-to_follow = %w(139FBE71933C61B1E050960A38031E3F 0ED887A544D14846E050960A38036413)
+to_follow = %w(139FBE71933C61B1E050960A38031E3F
+               0ED887A544D14846E050960A38036413)
 playlist_ids = []
 
 describe Napster::Me do
@@ -216,7 +217,6 @@ describe Napster::Me do
         'name' => Faker::Lorem.sentence
       }
       playlist = client.me.playlists.create(playlist_hash)
-      playlist_ids << playlist.id
       client.me.playlists.delete(playlist.id)
 
       unfound_playlist = client.me.playlists.find(playlist.id)
