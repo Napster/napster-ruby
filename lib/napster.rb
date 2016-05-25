@@ -5,6 +5,7 @@ require 'string_helper'
 require 'napster/client'
 require 'napster/me'
 require 'napster/moniker'
+require 'napster/response_error'
 require 'napster/request'
 require 'napster/version'
 

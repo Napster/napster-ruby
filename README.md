@@ -265,6 +265,23 @@ request_hash = {
 client.me.create_playlist(request_hash)
 ```
 
+#### Error Handling
+
+Napster gem provides `ResponseError` which wraps response errors from Napster
+API. You can inspect error attributes as shown below.
+
+```ruby
+begin
+  client.playlists.find('pp.125821370').tracks({}) # problematic request
+rescue Exception => error
+  puts error.http_status # => 400
+  puts error.response_body
+    # => {"code":"BadRequestError","message":"limit query parameter is required"}
+  puts error.faraday_response.inspect
+    # => #<Faraday::Response:0x007fe9bc957150 @on_complete_callbacks=[], ...
+end
+```
+
 <!--
 ### Versioning
 
