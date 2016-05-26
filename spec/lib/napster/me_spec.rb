@@ -314,16 +314,29 @@ describe Napster::Me do
         playlist = client.me.playlists.create(playlist_hash)
         playlist_ids << playlist.id
 
-        res = client.me.playlists.uploaded_images(id: playlist.id)
-
+        uploaded_images = client.me.playlists.uploaded_images(id: playlist.id)
+        expect(uploaded_images.class).to eql(Array)
+        unless uploaded_images.empty?
+          expect(uploaded_images.first.class)
+            .to eql(Napster::Models::UploadedImage)
+        end
       end
 
       it 'without id' do
+        public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
+        playlist_hash = {
+          'id' => public_playlist.id,
+          'name' => Faker::Lorem.sentence
+        }
+        playlist = client.me.playlists.create(playlist_hash)
+        playlist_ids << playlist.id
 
+        expect { client.me.playlists.uploaded_images({}) }
+	         .to raise_error(ArgumentError)
       end
 
       it 'with id and size' do
-
+        
       end
     end
   end
