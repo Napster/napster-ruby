@@ -220,7 +220,7 @@ module Napster
         Track.collection(data: response['tracks'], client: @client)
       end
 
-      def images(options)
+      def uploaded_images(options)
         e = 'Playlist ID is missing.'
         playlist_id = options[:id] ? options[:id] : @id
         raise ArgumentError, e unless playlist_id
@@ -235,7 +235,7 @@ module Napster
         }
         options[:params] = { size: options[:size] } if options[:size]
         response = @client.get(path, options)
-        Image.collection(data: response['images'], client: @client)
+        UploadedImage.collection(data: response['images'], client: @client)
       end
     end
   end

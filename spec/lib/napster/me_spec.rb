@@ -303,6 +303,29 @@ describe Napster::Me do
         expect(tracks.first.class).to eql(Napster::Models::Track)
       end
     end
+
+    describe 'playlists.images' do
+      it 'with id' do
+        public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
+        playlist_hash = {
+          'id' => public_playlist.id,
+          'name' => Faker::Lorem.sentence
+        }
+        playlist = client.me.playlists.create(playlist_hash)
+        playlist_ids << playlist.id
+
+        res = client.me.playlists.uploaded_images(id: playlist.id)
+
+      end
+
+      it 'without id' do
+
+      end
+
+      it 'with id and size' do
+
+      end
+    end
   end
 
   describe 'following' do
