@@ -219,6 +219,24 @@ module Napster
         response = @client.get('/me/recommendations/tracks', options)
         Track.collection(data: response['tracks'], client: @client)
       end
+
+      def images(options)
+        e = 'Playlist ID is missing.'
+        playlist_id = options[:id] ? options[:id] : @id
+        raise ArgumentError, e unless playlist_id
+
+        path = "/me/library/playlists/#{playlist_id}/images"
+        options = {
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        options[:params] = { size: options[:size] } if options[:size]
+        response = @client.get(path, options)
+        Image.collection(data: response['images'], client: @client)
+      end
     end
   end
 end
