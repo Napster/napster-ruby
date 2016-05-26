@@ -237,7 +237,7 @@ client.me.playlists.recommended_tracks('mp.123123')
 client.me.playlists.uploaded_images(id: 'mp.123123', size: 500) # id and size in px
 client.me.playlists.find('mp.123123').tracks(limit: 10)
 client.me.playlists.find('mp.123123').tags
-client.me.playlists.find('mp.123123').uploaded_images(size: 500) # size in px
+client.me.playlists.find('mp.123123').uploaded_images(500) # size in px
 
 # profile
 client.me.profile.get

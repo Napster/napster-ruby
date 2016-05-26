@@ -353,6 +353,23 @@ describe Napster::Me do
         end
       end
     end
+
+    it '#uploaded_images(size)' do
+      public_playlist = client.playlists.playlists_of_the_day(limit: 1).first
+      playlist_hash = {
+        'id' => public_playlist.id,
+        'name' => Faker::Lorem.sentence
+      }
+      playlist = client.me.playlists.create(playlist_hash)
+      playlist_ids << playlist.id
+
+      uploaded_images = playlist.uploaded_images(500)
+      expect(uploaded_images.class).to eql(Array)
+      unless uploaded_images.empty?
+        expect(uploaded_images.first.class)
+          .to eql(Napster::Models::UploadedImage)
+      end
+    end
   end
 
   describe 'following' do

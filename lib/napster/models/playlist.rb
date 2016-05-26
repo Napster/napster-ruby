@@ -221,6 +221,7 @@ module Napster
       end
 
       def uploaded_images(options)
+        return uploaded_images_with_size(options) if options.class == Fixnum
         e = 'Playlist ID is missing.'
         playlist_id = options[:id] ? options[:id] : @id
         raise ArgumentError, e unless playlist_id
@@ -234,6 +235,22 @@ module Napster
           }
         }
         options[:params] = { size: options[:size] } if options[:size]
+        response = @client.get(path, options)
+        UploadedImage.collection(data: response['images'], client: @client)
+      end
+
+      private
+
+      def uploaded_images_with_size(size)
+        path = "/me/library/playlists/#{@id}/images"
+        options = {
+          params: { size: size },
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
         response = @client.get(path, options)
         UploadedImage.collection(data: response['images'], client: @client)
       end
