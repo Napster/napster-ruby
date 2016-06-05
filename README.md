@@ -235,6 +235,8 @@ client.me.playlists.set_private('mp.123123', 'private')
 client.me.playlists.add_tracks('mp.123123', ['Tra.5156528'])
 client.me.playlists.recommended_tracks('mp.123123')
 client.me.playlists.uploaded_images(id: 'mp.123123', size: 500) # id and size in px
+client.me.playlists.sourced_by('my_own_playlists',
+                               { artists: ['art.123', 'art.234'], tags: ['tag.123', 'tag.234'], guid: 'xyz', sort: 'alpha_asc', include_private: true, limit: 10, offset: 5})
 client.me.playlists.find('mp.123123').tracks(limit: 10)
 client.me.playlists.find('mp.123123').tags
 client.me.playlists.find('mp.123123').uploaded_images(500) # size in px

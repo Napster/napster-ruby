@@ -239,6 +239,26 @@ module Napster
         UploadedImage.collection(data: response['images'], client: @client)
       end
 
+      def sourced_by(sourced, params)
+        sourced_error = 'sourced argument should be a string'
+        params_error = 'params argument should be a hash'
+        raise ArgumentError, sourced_error unless sourced.class == String
+        raise ArgumentError, params_error unless params.class == Hash
+
+        path = '/me/search/playlists'
+        options = {
+          params: params,
+          headers: {
+            Authorization: 'Bearer ' + @client.access_token,
+            'Content-Type' => 'application/json',
+            'Accept-Version' => '2.0.0'
+          }
+        }
+        options[:params][:source] = sourced
+        response = @client.get(path, options)
+        Playlist.collection(data: response['playlists'], client: @client)
+      end
+
       private
 
       def uploaded_images_with_size(size)

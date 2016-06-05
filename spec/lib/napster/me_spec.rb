@@ -91,7 +91,9 @@ describe Napster::Me do
     tracks = client.me.listening_history(params)
 
     expect(tracks.class).to eql(Array)
-    expect(tracks.first.class).to eql(Napster::Models::Track)
+    unless tracks.empty?
+      expect(tracks.first.class).to eql(Napster::Models::Track)
+    end
   end
 
   describe '.library' do
@@ -369,6 +371,23 @@ describe Napster::Me do
         expect(uploaded_images.first.class)
           .to eql(Napster::Models::UploadedImage)
       end
+    end
+  end
+
+  it 'sourced_by' do
+    tag_ids = client.tags.all.map(&:id)
+    artists_ids = client.artists.top({}).map(&:id)
+    params = {
+      tags: tag_ids,
+      artists: artists_ids,
+      sort: 'alpha_asc',
+      limit: 5,
+      offset: 5
+    }
+    playlists = client.me.playlists.sourced_by('all_playlists', params)
+    expect(playlists.class).to eql(Array)
+    playlists.each do |p|
+      expect(p.class).to eql(Napster::Models::Playlist)
     end
   end
 
