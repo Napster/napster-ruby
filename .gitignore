@@ -38,3 +38,6 @@ build/
 
 ## Configs
 spec/config.yml
+
+## RBENV related
+.ruby-version
