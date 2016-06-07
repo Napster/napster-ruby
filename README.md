@@ -7,9 +7,10 @@
 Put Badges here when we have them:
 [![Build Status](https://travis-ci.org/)
 -->
-
+<!--
+TODO: Add this link to the top when we change name of Google Forum
 **Got a question?** Let us know via the Napster API [google forum](https://groups.google.com/forum/#!forum/rhapsody-api).
-
+-->
 # Napster Gem
 
 A Ruby interface to the [Napster/Rhapsody API](https://developer.rhapsody.com/).
