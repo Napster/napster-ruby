@@ -39,4 +39,22 @@ module ClientSpecHelper
       client.me.playlists.delete(playlist_id)
     end
   end
+
+  def self.content_in_library?
+    params = { limit: 10 }
+    includes = %w(username password)
+    client = ClientSpecHelper.get_client(includes)
+    client.authenticate(:password_grant)
+    artists = client.me.library.artists(params)
+    !artists.empty?
+  end
+
+  def self.owns_playlists?
+    params = { limit: 10 }
+    includes = %w(username password)
+    client = ClientSpecHelper.get_client(includes)
+    client.authenticate(:password_grant)
+    playlists = client.me.playlists.all(params)
+    !playlists.empty?
+  end
 end
