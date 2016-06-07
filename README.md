@@ -18,6 +18,10 @@ Or install it yourself as:
 
     $ gem install napster
 
+### Ruby version
+
+Ruby version should be 2.0 or greater.
+
 ## Usage
 
 ### Setting up a client
