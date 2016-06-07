@@ -1,3 +1,15 @@
+<!-- TODO: Move this SVG to Dev Portal assets when we have more assets.  Right now it's in Dropbox :) -->
+<a href="http://developer.napster.com/">
+  <img src="https://dl.dropboxusercontent.com/s/bfydqpzisetm7y3/napster.svg?dl=0" alt="Napster Logo" title="Napster API" align="right" width=150 height=150/>
+</a>
+
+<!--
+Put Badges here when we have them:
+[![Build Status](https://travis-ci.org/)
+-->
+
+**Got a question?** Let us know via the Napster API [google forum](https://groups.google.com/forum/#!forum/rhapsody-api).
+
 # Napster Gem
 
 A Ruby interface to the [Napster/Rhapsody API](https://developer.rhapsody.com/).
