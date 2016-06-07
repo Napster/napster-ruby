@@ -96,7 +96,7 @@ describe Napster::Me do
     end
   end
 
-  describe '.library' do
+  describe '.library', if: ClientSpecHelper.content_in_library? do
     it '.library.artists' do
       params = { limit: 10 }
       artists = client.me.library.artists(params)
