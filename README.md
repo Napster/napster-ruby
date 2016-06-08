@@ -368,3 +368,12 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/rhapso
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+<!-- necessary legalese - because, legal, you know -->
+<div style="background-color:#f7f7f7;padding:10px;font-size:0.8em;text-align:center;">
+Napster and Napster logo are registered and unregistered trademarks of Rhapsody International. in the United States and/or other countries.
+<br/>
+All company, product and service names used in this website are for identification purposes only.
+<br/>
+All product names, logos, and brands are property of their respective owners.
+</div>
