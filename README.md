@@ -1,3 +1,16 @@
+<!-- TODO: Move this SVG to Dev Portal assets when we have more assets.  Right now it's in Dropbox :) -->
+<a href="http://developer.napster.com/">
+  <img src="https://dl.dropboxusercontent.com/s/bfydqpzisetm7y3/napster.svg?dl=0" alt="Napster Logo" title="Napster API" align="right" width=150 height=150/>
+</a>
+
+<!--
+Put Badges here when we have them:
+[![Build Status](https://travis-ci.org/)
+-->
+<!--
+TODO: Add this link to the top when we change name of Google Forum
+**Got a question?** Let us know via the Napster API [google forum](https://groups.google.com/forum/#!forum/rhapsody-api).
+-->
 # Napster Gem
 
 A Ruby interface to the [Napster/Rhapsody API](https://developer.rhapsody.com/).
@@ -355,3 +368,5 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/rhapso
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Napster and Napster logo are registered and unregistered trademarks of Rhapsody International in the United States and/or other countries. All company, product and service names used in this website are for identification purposes only.  All product names, logos, and brands are property of their respective owners.
