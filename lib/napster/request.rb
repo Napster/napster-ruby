@@ -6,6 +6,9 @@ module Napster
 
     attr_accessor :faraday
 
+    # Initialize a Faraday client
+    # @param options [Hash] May contains api_key, api_secret adn access_token
+    # @return [Faraday] Return Faraday object for making API calls
     def initialize(options)
       @faraday = Faraday.new(url: HOST_URL) do |faraday|
         faraday.request  :url_encoded
