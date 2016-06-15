@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'A Ruby interface to the Napster API.'
   spec.description = 'A Ruby interface to the Napster API.'
-  spec.homepage = 'https://developer.rhapsody.com/'
+  spec.homepage = 'https://developer.napster.com/'
   spec.license = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or

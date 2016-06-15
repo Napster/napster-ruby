@@ -13,7 +13,7 @@ TODO: Add this link to the top when we change name of Google Forum
 -->
 # Napster Gem
 
-A Ruby interface to the [Napster/Rhapsody API](https://developer.rhapsody.com/).
+A Ruby interface to the [Napster API](https://developer.napster.com/).
 
 ## Installation
 
@@ -39,9 +39,9 @@ Ruby version should be 2.0 or greater.
 
 ### Setting up a client
 
-A **client** prepares you to make calls to Napster/Rhapsody API.
+A **client** prepares you to make calls to Napster API.
 Here is an example code for setting up a client using
-[implicit method](https://developer.rhapsody.com/api#authentication).
+[implicit method](https://developer.napster.com/api#authentication).
 
 ``` ruby
 require 'napster'
@@ -337,10 +337,8 @@ client.artists.top # returns top artists using v2.1
 
 Napster gem uses RSpec and FactoryGirl.
 
-Rhapsody gem uses RSpec and FactoryGirl.
-
 1. Get the API key and API secret from
-[Rhapsody Developers site](https://developer.rhapsody.com/).
+[Napster Developers site](https://developer.napster.com/).
 
 2. Create a file called `config.yml` in `spec` directory.
 
@@ -362,8 +360,7 @@ config_variables:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/rhapsody/napster.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/napster/napster-ruby.
 
 ## License
 

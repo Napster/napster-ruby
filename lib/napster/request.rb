@@ -2,7 +2,7 @@ module Napster
   # The Request class implements a request object used to
   # call Napster API
   class Request
-    HOST_URL = 'https://api.rhapsody.com'.freeze
+    HOST_URL = 'https://api.napster.com'.freeze
 
     attr_accessor :faraday
 
