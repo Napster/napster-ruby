@@ -154,6 +154,17 @@ module Napster
       Napster::Me.new(self)
     end
 
+    # Refresh access token
+    def refresh
+      validate_refresh
+      body = post('/oauth/access_token', refresh_post_body, {})
+      @access_token = body['access_token']
+      @refresh_token = body['refresh_token']
+      @expires_in = body['expires_in']
+
+      self
+    end
+
     private
 
     # Helper method for .new, choose authentication method, and authenticate
@@ -194,6 +205,12 @@ module Napster
       end
     end
 
+    def validate_refresh
+      raise Error, 'api_key is missing' unless @api_key
+      raise Error, 'api_secret is missing' unless @api_secret
+      raise Error, 'refresh_token is missing' unless @refresh_token
+    end
+
     def auth_password_grant
       validate_auth_password_grant
       body = post('/oauth/token',
@@ -212,6 +229,16 @@ module Napster
         grant_type: 'password',
         username: @username,
         password: @password
+      }
+    end
+
+    def refresh_post_body
+      {
+        client_id: @api_key,
+        client_secret: @api_secret,
+        response_type: 'code',
+        grant_type: 'refresh_token',
+        refresh_token: @refresh_token
       }
     end
 
