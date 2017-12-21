@@ -357,6 +357,10 @@ config_variables:
 
 5. `$ rspec`
 
+### Documentation
+
+We use [yard](https://github.com/lsegal/yard) gem for documentation. In order to run the documenation server,
+run, `$ bundle exec yard doc`.
 
 ## Contributing
 
