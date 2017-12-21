@@ -178,8 +178,8 @@ describe Napster::Client do
       end
       click_button 'Sign In'
 
-      selector = '.btn.btn-primary.btn-warning.pull-right'
-      redirect_uri = page.find(selector)['href']
+      selector = '.col-xs-10.col-xs-offset-1.text-center a'
+      redirect_uri = page.all(selector)[0]['href']
       client.auth_code = CGI.parse(URI.parse(redirect_uri).query)['code'].first
       client.state = CGI.parse(URI.parse(redirect_uri).query)['state'].first
       client = client.authenticate(:oauth2)
@@ -291,8 +291,8 @@ describe Napster::Client do
       end
       click_button 'Sign In'
 
-      selector = '.btn.btn-primary.btn-warning.pull-right'
-      redirect_uri = page.find(selector)['href']
+      selector = '.col-xs-10.col-xs-offset-1.text-center a'
+      redirect_uri = page.all(selector)[0]['href']
       client.auth_code = CGI.parse(URI.parse(redirect_uri).query)['code'].first
       client.state = CGI.parse(URI.parse(redirect_uri).query)['state'].first
       client = client.connect

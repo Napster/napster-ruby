@@ -38,6 +38,8 @@ module Napster
       end
 
       def self.collection(arg)
+        return if !arg || !arg[:data]
+
         arg[:data].map do |track|
           Track.new(data: track, client: @client)
         end
