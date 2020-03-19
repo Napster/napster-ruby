@@ -36,11 +36,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency('oj', '~> 3.3.9')
 
   spec.add_development_dependency 'bundler', '~> 1.11'
-  spec.add_development_dependency 'rake', '~> 11.1'
+  spec.add_development_dependency 'rake', '~> 12.3.3'
   spec.add_development_dependency 'rspec', '~> 3.4'
   spec.add_development_dependency 'capybara', '~> 2.6'
   spec.add_development_dependency 'poltergeist', '~> 1.9'
-  spec.add_development_dependency 'rubocop', '~> 0.38.0'
+  spec.add_development_dependency 'rubocop', '~> 0.49.0'
   spec.add_development_dependency 'faker', '~> 1.6'
   spec.add_development_dependency 'yard', '~> 0.9.12'
 end
