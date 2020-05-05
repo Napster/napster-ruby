@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Napster/napster-ruby.png?label=ready&title=Ready)](https://waffle.io/Napster/napster-ruby)
 <!-- TODO: Move this SVG to Dev Portal assets when we have more assets.  Right now it's in Dropbox :) -->
 <a href="http://developer.napster.com/">
   <img src="https://dl.dropboxusercontent.com/s/bfydqpzisetm7y3/napster.svg?dl=0" alt="Napster Logo" title="Napster API" align="right" width=150 height=150/>
