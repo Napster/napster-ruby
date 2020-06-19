@@ -133,6 +133,13 @@ it is expired.
 through authentication after the old access_token expires.*
 
 ```ruby
+client_hash = {
+  api_key: 'API_KEY',
+  api_secret: 'API_SECRET',
+  refresh_token: 'REFRESH_TOKEN'
+}
+
+client = Napster::Client.new(client_hash)
 client.refresh # => returns new access_token by refreshing it
 ```
 

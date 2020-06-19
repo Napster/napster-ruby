@@ -233,7 +233,7 @@ describe Napster::Me do
       }
       playlist = client.me.playlists.create(playlist_hash)
       playlist_ids << playlist.id
-      privacy_value = rand(0..1) == 0 ? true : false
+      privacy_value = rand(0..1).zero? ? true : false
 
       client.me.playlists.set_private(playlist.id, privacy_value)
       updated_playlist = client.me.playlists.find(playlist.id)

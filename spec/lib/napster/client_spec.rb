@@ -33,6 +33,20 @@ describe Napster::Client do
       expect(client.access_token).to_not be_nil
     end
 
+    it 'with api_key, api_secret, refresh_token' do
+      refresh_token = ClientSpecHelper.prepare_refresh_token
+      options = {
+        api_key: config_variables['API_KEY'],
+        api_secret: config_variables['API_SECRET'],
+        refresh_token: refresh_token
+      }
+      client = Napster::Client.new(options)
+
+      expect(client.api_key).to_not be_nil
+      expect(client.api_secret).to_not be_nil
+      expect(client.refresh_token).to_not be_nil
+    end
+
     it 'without attributes' do
       options = {
         api_key: Faker::Lorem.characters(20),
@@ -313,5 +327,20 @@ describe Napster::Client do
     client = Napster::Client.new(options)
 
     expect(client.me.class).to eql(Napster::Me)
+  end
+
+  it '#refresh' do
+    refresh_token = ClientSpecHelper.prepare_refresh_token
+    options = {
+      api_key: config_variables['API_KEY'],
+      api_secret: config_variables['API_SECRET'],
+      refresh_token: refresh_token
+    }
+    client = Napster::Client.new(options)
+    client.refresh
+
+    expect(client.access_token).to_not be_nil
+    expect(client.refresh_token).to_not be_nil
+    expect(client.expires_in).to_not be_nil
   end
 end

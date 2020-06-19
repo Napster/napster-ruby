@@ -57,4 +57,11 @@ module ClientSpecHelper
     playlists = client.me.playlists.all(params)
     !playlists.empty?
   end
+
+  def self.prepare_refresh_token
+    includes = %w(username password)
+    client = ClientSpecHelper.get_client(includes)
+    client.authenticate(:password_grant)
+    client.refresh_token
+  end
 end
